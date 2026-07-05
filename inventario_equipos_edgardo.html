@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workstation Hardware Assignment - Edgardo Maldonado Cabral</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700&display=swap');
+
+        /* DESIGN SYSTEM VARIABLES */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --accent: #6366f1;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --input-bg: rgba(15, 23, 42, 0.6);
+            --input-border: rgba(255, 255, 255, 0.15);
+            --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            --font-display: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        /* RESET & GENERAL STYLES */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: #0f172a;
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        /* CORPORATE HEADER */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--card-border);
+            position: relative;
+        }
+
+        header h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            background: linear-gradient(to right, #60a5fa, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .meta-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .meta-item span.highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* FLOATING ACTION PANEL */
+        .controls-panel {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 100;
+            background: rgba(30, 41, 59, 0.85);
+            padding: 15px;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(0);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .controls-panel:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: scale(1.02);
+        }
+
+        /* AUTO-SAVE TOAST */
+        .toast-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 500;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transform: translateY(-100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+        }
+
+        .toast-alert.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* INVENTORY OVERVIEW CARD */
+        .overview-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow-premium);
+        }
+
+        .overview-card h2 {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-box {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--card-border);
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-box .number {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .stat-box .label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* WORKSTATION CARDS */
+        .team-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow-premium);
+            transition: border-color 0.3s ease;
+            position: relative;
+        }
+
+        .team-card:hover {
+            border-color: rgba(59, 130, 246, 0.25);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 15px;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-title h3 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .badge {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            text-transform: uppercase;
+        }
+
+        .badge-alt {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        /* CONTENT LAYOUT IN CARDS */
+        .card-content {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 850px) {
+            .card-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* COMPONENTS TABLE */
+        .components-table-wrapper {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .components-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .components-table th {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--card-border);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .components-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 0.95rem;
+        }
+
+        .components-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .component-icon {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+
+        .serial-input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: var(--text-main);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .serial-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        /* STATIC TEXT FOR LOCKED/PRINT STYLES */
+        .serial-static-text {
+            display: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            min-height: 20px;
+        }
+
+        /* MULTIPLE IMAGES GALLERY */
+        .gallery-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .image-uploader-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            background: rgba(15, 23, 42, 0.3);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 180px;
+            position: relative;
+        }
+
+        .image-uploader-zone:hover {
+            border-color: var(--primary);
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        .image-uploader-zone input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-icon {
+            font-size: 2.2rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .upload-text strong {
+            color: var(--primary);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            background: rgba(15, 23, 42, 0.4);
+            aspect-ratio: 4/3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.2s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .remove-image-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(239, 68, 68, 0.95);
+            color: white;
+            border: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .remove-image-btn:hover {
+            background: #dc2626;
+            transform: scale(1.1);
+        }
+
+        /* LOCKED MODE STYLES */
+        body.locked .serial-input {
+            display: none;
+        }
+
+        body.locked .serial-static-text {
+            display: inline-block;
+        }
+
+        body.locked .image-uploader-zone {
+            display: none;
+        }
+
+        body.locked .remove-image-btn {
+            display: none;
+        }
+
+        body.locked .badge-lock {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        /* PRINT STYLE SHEETS (PDF/A4 OVERRIDES) */
+        @media print {
+            body {
+                background: white !important;
+                background-image: none !important;
+                color: black !important;
+                padding: 0 !important;
+                font-size: 11pt !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .container {
+                max-width: 100% !important;
+            }
+
+            /* Page break per workstation */
+            .team-card {
+                page-break-after: always !important;
+                break-after: page !important;
+                border: none !important;
+                background: white !important;
+                padding: 10px 0 !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                backdrop-filter: none !important;
+            }
+
+            .team-card:last-child {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
+            }
+
+            /* Hide UI controls */
+            .controls-panel, 
+            .toast-alert, 
+            .image-uploader-zone, 
+            .remove-image-btn,
+            .overview-card,
+            header p,
+            .header-meta {
+                display: none !important;
+            }
+
+            header {
+                margin-bottom: 20px !important;
+                padding-bottom: 10px !important;
+                border-bottom: 2px solid #333 !important;
+            }
+
+            header h1 {
+                background: none !important;
+                -webkit-text-fill-color: black !important;
+                color: black !important;
+                font-size: 22pt !important;
+                text-align: center !important;
+            }
+
+            .card-header {
+                border-bottom: 2px solid #666 !important;
+                padding-bottom: 8px !important;
+                margin-bottom: 15px !important;
+            }
+
+            .card-title h3 {
+                color: black !important;
+                font-size: 16pt !important;
+            }
+
+            .badge {
+                border: 1px solid #333 !important;
+                color: black !important;
+                background: transparent !important;
+                font-size: 8pt !important;
+            }
+
+            .card-content {
+                grid-template-columns: 1fr !important;
+                gap: 30px !important;
+            }
+
+            .components-table-wrapper {
+                border: 1px solid #333 !important;
+                background: transparent !important;
+                margin-bottom: 10px !important;
+            }
+
+            .components-table th {
+                color: black !important;
+                border-bottom: 1px solid #333 !important;
+                background: #f0f0f0 !important;
+                font-size: 8pt !important;
+                padding: 8px 10px !important;
+            }
+
+            .components-table td {
+                color: black !important;
+                border-bottom: 1px solid #e0e0e0 !important;
+                padding: 8px 10px !important;
+                font-size: 10pt !important;
+            }
+
+            .serial-input {
+                display: none !important;
+            }
+
+            .serial-static-text {
+                display: inline-block !important;
+                color: black !important;
+                font-size: 10pt !important;
+            }
+
+            /* Draw line if empty serial to fill by hand */
+            .serial-static-text:empty::after,
+            .serial-static-text:blank::after {
+                content: "..................................................";
+                color: #888;
+                font-size: 9pt;
+            }
+
+            /* Adjust gallery layout on print */
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 15px !important;
+                margin-top: 15px !important;
+            }
+
+            .gallery-item {
+                border: 1px solid #ddd !important;
+                border-radius: 8px !important;
+                box-shadow: none !important;
+                background: transparent !important;
+                height: 240px !important;
+                aspect-ratio: 4/3 !important;
+                overflow: hidden !important;
+            }
+
+            .gallery-item img {
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- AUTO-SAVE TOAST -->
+    <div class="toast-alert" id="toastAlert">
+        <span>⚡</span> Data auto-saved locally
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+
+        <!-- HEADER -->
+        <header>
+            <h1>GET AIR • PERSONAL ASSET ASSIGNMENT</h1>
+            <p>Hardware & Inventory Control - Edgardo Maldonado Cabral</p>
+            <div class="header-meta">
+                <div class="meta-item">
+                    <span>Status:</span>
+                    <span class="highlight">Active / Audited</span>
+                </div>
+                <div class="meta-item">
+                    <span>Workstation:</span>
+                    <span class="highlight">1 Complete Setup</span>
+                </div>
+                <div class="meta-item">
+                    <span>Audited Date:</span>
+                    <span class="highlight" id="currentDate">06/22/2026</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- FLOATING CONTROL BAR (DOCK) -->
+        <div class="controls-panel" id="controls">
+            <button class="btn btn-primary" onclick="window.print()">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2m-2-9v13H8v-13"></path></svg>
+                Print / PDF
+            </button>
+            <button class="btn btn-secondary" id="lockBtn" onclick="toggleLockMode()">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path id="lockIconPath" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                <span id="lockBtnText">Lock Editing</span>
+            </button>
+            <button class="btn btn-danger" onclick="resetForm()">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                Reset All Data
+            </button>
+        </div>
+
+        <!-- GENERAL SUMMARY OVERVIEW -->
+        <div class="overview-card">
+            <h2>
+                <span>📊</span> General Inventory Overview
+            </h2>
+            <div class="overview-grid">
+                <div class="stat-box">
+                    <div class="number">1</div>
+                    <div class="label">Mac Mini Computer</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">1</div>
+                    <div class="label">Video Monitor</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">1</div>
+                    <div class="label">Logitech Keyboard</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">1</div>
+                    <div class="label">Mouse & Headset</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STATION EDGARDO: EDGARDO MALDONADO CABRAL -->
+        <div class="team-card" id="card_edgardo">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3>Workstation Assignment: Edgardo Maldonado Cabral</h3>
+                    <span class="badge badge-alt">Edgardo Maldonado Cabral</span>
+                </div>
+                <span class="badge">Active Assignment</span>
+            </div>
+            
+            <div class="card-content">
+                <!-- Components Table -->
+                <div class="components-table-wrapper">
+                    <table class="components-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%">Component</th>
+                                <th style="width: 60%">Serial Number (S/N)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="component-icon">🖥️</span> Mac Mini (Apple)</td>
+                                <td>
+                                    <input type="text" class="serial-input" id="serial_edgardo_mac" placeholder="Enter Mac Mini S/N" oninput="autoSave()">
+                                    <div class="serial-static-text" id="text_edgardo_mac"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="component-icon">📺</span> Video Monitor</td>
+                                <td>
+                                    <input type="text" class="serial-input" id="serial_edgardo_monitor" placeholder="Enter Monitor S/N" oninput="autoSave()">
+                                    <div class="serial-static-text" id="text_edgardo_monitor"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="component-icon">⌨️</span> Keyboard</td>
+                                <td>
+                                    <input type="text" class="serial-input" id="serial_edgardo_keyboard" placeholder="Enter Keyboard S/N" oninput="autoSave()">
+                                    <div class="serial-static-text" id="text_edgardo_keyboard"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="component-icon">🖱️</span> Mouse</td>
+                                <td>
+                                    <input type="text" class="serial-input" id="serial_edgardo_mouse" placeholder="Enter Mouse S/N" oninput="autoSave()">
+                                    <div class="serial-static-text" id="text_edgardo_mouse"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="component-icon">🎧</span> Headset</td>
+                                <td>
+                                    <input type="text" class="serial-input" id="serial_edgardo_headset" placeholder="Enter Headset S/N" oninput="autoSave()">
+                                    <div class="serial-static-text" id="text_edgardo_headset"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Photos Gallery -->
+                <div class="gallery-wrapper">
+                    <div class="image-uploader-zone" id="uploadZone_edgardo">
+                        <span class="upload-icon">📸</span>
+                        <div class="upload-text">
+                            <strong>Upload workstation photos (Max 7)</strong><br>Drag & drop or click to upload
+                        </div>
+                        <div class="upload-count" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">0 / 7 photos uploaded</div>
+                        <input type="file" accept="image/*" multiple onchange="handleMultipleImageUpload(this, 'edgardo')">
+                    </div>
+                    <div class="gallery-grid" id="gallery_edgardo"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Format dates in header (US style MM/DD/YYYY)
+        const dateOptions = { month: '2-digit', day: '2-digit', year: 'numeric' };
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-US', dateOptions);
+
+        // Input ID list
+        const inputIds = [
+            'serial_edgardo_mac', 'serial_edgardo_monitor', 'serial_edgardo_keyboard', 'serial_edgardo_mouse', 'serial_edgardo_headset'
+        ];
+
+        // Load data on startup
+        window.addEventListener('DOMContentLoaded', () => {
+            loadAllData();
+        });
+
+        // Auto-save logic
+        let saveTimeout;
+        function autoSave() {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                saveAllData();
+                showSaveToast();
+            }, 500); // Trigger save 500ms after user stops typing
+        }
+
+        function saveAllData() {
+            inputIds.forEach(id => {
+                const val = document.getElementById(id).value;
+                localStorage.setItem(id, val);
+                
+                // Sync static texts for print layout
+                const staticTextId = id.replace('serial_', 'text_');
+                const staticEl = document.getElementById(staticTextId);
+                if (staticEl) {
+                    staticEl.innerText = val;
+                }
+            });
+        }
+
+        function loadAllData() {
+            inputIds.forEach(id => {
+                const savedVal = localStorage.getItem(id);
+                if (savedVal !== null) {
+                    document.getElementById(id).value = savedVal;
+                    
+                    // Sincronizar texto estático
+                    const staticTextId = id.replace('serial_', 'text_');
+                    const staticEl = document.getElementById(staticTextId);
+                    if (staticEl) {
+                        staticEl.innerText = savedVal;
+                    }
+                }
+            });
+
+            // Load saved image galleries
+            loadImages('edgardo');
+        }
+
+        // Show auto-save notification
+        function showSaveToast() {
+            const toast = document.getElementById('toastAlert');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // PHOTO GALLERY LOGIC WITH CANVAS COMPRESSION
+        function loadImages(employeeId) {
+            const gallery = document.getElementById('gallery_' + employeeId);
+            gallery.innerHTML = '';
+            
+            let images = [];
+            const saved = localStorage.getItem('images_' + employeeId);
+            
+            if (saved) {
+                images = JSON.parse(saved);
+            }
+            
+            images.forEach((src, index) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                
+                const img = document.createElement('img');
+                img.src = src;
+                img.onerror = function() {
+                    this.src = 'https://placehold.co/600x450/1e293b/94a3b8?text=Error';
+                };
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-image-btn';
+                removeBtn.innerHTML = '×';
+                removeBtn.title = 'Delete Image';
+                removeBtn.onclick = function() {
+                    removeImage(employeeId, index);
+                };
+                
+                item.appendChild(img);
+                item.appendChild(removeBtn);
+                gallery.appendChild(item);
+            });
+            
+            // Toggle uploader visibility based on max limit (7)
+            const uploader = document.getElementById('uploadZone_' + employeeId);
+            if (images.length >= 7) {
+                uploader.style.display = 'none';
+            } else {
+                uploader.style.display = 'flex';
+                const countText = uploader.querySelector('.upload-count');
+                if (countText) {
+                    countText.innerText = `${images.length} / 7 photos uploaded`;
+                }
+            }
+        }
+
+        function handleMultipleImageUpload(inputEl, employeeId) {
+            const files = Array.from(inputEl.files);
+            if (files.length === 0) return;
+            
+            let images = [];
+            const saved = localStorage.getItem('images_' + employeeId);
+            if (saved) {
+                images = JSON.parse(saved);
+            }
+            
+            if (images.length + files.length > 7) {
+                alert("A maximum of 7 photos is allowed per workstation.");
+                return;
+            }
+            
+            let loadedCount = 0;
+            
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const imgObj = new Image();
+                    imgObj.onload = function() {
+                        // CANVAS DOWN-SCALING & COMPRESSION
+                        const canvas = document.createElement('canvas');
+                        let width = imgObj.width;
+                        let height = imgObj.height;
+                        const maxDim = 600;
+
+                        if (width > maxDim || height > maxDim) {
+                            if (width > height) {
+                                height = Math.round((height * maxDim) / width);
+                                width = maxDim;
+                            } else {
+                                width = Math.round((width * maxDim) / height);
+                                height = maxDim;
+                            }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(imgObj, 0, 0, width, height);
+
+                        // Compress as high-efficiency JPEG (quality 0.65)
+                        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.65);
+                        
+                        images.push(compressedDataUrl);
+                        loadedCount++;
+                        
+                        if (loadedCount === files.length) {
+                            try {
+                                localStorage.setItem('images_' + employeeId, JSON.stringify(images));
+                                loadImages(employeeId);
+                                showSaveToast();
+                            } catch (e) {
+                                console.error("Error saving to localStorage:", e);
+                                alert("Local browser storage is full. Some images could not be saved.");
+                            }
+                        }
+                    };
+                    imgObj.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function removeImage(employeeId, index) {
+            if (confirm("Are you sure you want to delete this photo?")) {
+                let images = [];
+                const saved = localStorage.getItem('images_' + employeeId);
+                if (saved) {
+                    images = JSON.parse(saved);
+                }
+                
+                images.splice(index, 1);
+                localStorage.setItem('images_' + employeeId, JSON.stringify(images));
+                loadImages(employeeId);
+                showSaveToast();
+            }
+        }
+
+        // RESET ALL DATA
+        function resetForm() {
+            if (confirm("⚠️ Are you sure you want to reset all inventory data? This will clear all saved serial numbers and uploaded images.")) {
+                localStorage.clear();
+                
+                // Clear text inputs
+                inputIds.forEach(id => {
+                    document.getElementById(id).value = '';
+                    const staticId = id.replace('serial_', 'text_');
+                    const staticEl = document.getElementById(staticId);
+                    if (staticEl) staticEl.innerText = '';
+                });
+
+                // Clear and reload default galleries
+                ['edgardo'].forEach(emp => {
+                    localStorage.removeItem('images_' + emp);
+                    loadImages(emp);
+                });
+
+                // Exit lock mode if active
+                if (document.body.classList.contains('locked')) {
+                    toggleLockMode();
+                }
+
+                showSaveToast();
+            }
+        }
+
+        // LOCK MODE TOGGLE: swaps text boxes for static readable texts
+        function toggleLockMode() {
+            const body = document.body;
+            const btn = document.getElementById('lockBtn');
+            const btnText = document.getElementById('lockBtnText');
+            const lockIconPath = document.getElementById('lockIconPath');
+
+            if (!body.classList.contains('locked')) {
+                saveAllData();
+                body.classList.add('locked');
+                btnText.innerText = "Edit Mode";
+                btn.classList.add('btn-primary');
+                btn.classList.remove('btn-secondary');
+                // Lock opened icon
+                lockIconPath.setAttribute('d', 'M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z');
+            } else {
+                body.classList.remove('locked');
+                btnText.innerText = "Lock Editing";
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-secondary');
+                // Lock closed icon
+                lockIconPath.setAttribute('d', 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conect-R - Plan de Asesoría Operativa (Maya)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0a0a0a;
+      --card-bg: #161618;
+      --card-lighter: #1e1e20;
+      --border-color: #2a2a2a;
+      --primary: #f0a500;
+      --accent: #93c5fd; 
+      --text-main: #f7f7f7;
+      --text-muted: #a3a3a3;
+      --success: #10b981;
+      --danger: #ef4444;
+      --danger-bg: rgba(239, 68, 68, 0.05);
+      --warning: #f59e0b;
+      --warning-bg: rgba(245, 158, 11, 0.05);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 50px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .hero h1 {
+      font-size: 3em;
+      margin-bottom: 15px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .hero h1 span {
+      color: var(--primary);
+    }
+
+    .hero p {
+      font-size: 1.2em;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
+
+    /* Message Boxes */
+    .message-box {
+      border-left: 4px solid;
+      padding: 20px 25px;
+      border-radius: 4px;
+      margin-bottom: 40px;
+    }
+    .box-info {
+      background: rgba(240, 165, 0, 0.05);
+      border-color: var(--primary);
+    }
+    .box-info h3 { color: var(--primary); }
+
+    .box-warning {
+      background: var(--warning-bg);
+      border-color: var(--warning);
+    }
+    .box-warning h3 { color: var(--warning); }
+
+    .box-danger {
+      background: var(--danger-bg);
+      border-color: var(--danger);
+    }
+    .box-danger h3 { color: var(--danger); }
+
+    .message-box h3 {
+      font-size: 1.3em;
+      margin-bottom: 10px;
+    }
+    
+    .link-error-list {
+      margin-top: 15px;
+      list-style: none;
+    }
+    .link-error-list li {
+      background: #18181b;
+      border: 1px solid #27272a;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .link-url {
+      color: #93c5fd;
+      font-family: monospace;
+      font-size: 0.95em;
+    }
+    .link-status {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8em;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 60px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 30px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border-color: #3a3a3a;
+    }
+
+    .card-icon {
+      font-size: 2em;
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      font-size: 1.2em;
+      margin-bottom: 15px;
+      color: #fff;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.95em;
+      margin-bottom: 15px;
+    }
+
+    .value-tag {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9em;
+    }
+
+    /* Calculator UI */
+    .calculator-section {
+      margin-top: 40px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 40px;
+    }
+
+    .calc-intro {
+      margin-bottom: 30px;
+    }
+
+    .calc-container {
+      background: #18181b;
+      border: 1px solid #27272a;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    .calc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .calc-title {
+      font-size: 1.5em;
+      font-weight: 600;
+      color: #e4e4e7;
+    }
+
+    .calc-metrics {
+      display: flex;
+      gap: 40px;
+    }
+
+    .metric {
+      text-align: left;
+    }
+
+    .metric-label {
+      font-size: 0.75em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #a1a1aa;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    .metric-value {
+      font-size: 1.5em;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .chart-container {
+      background: #09090b;
+      border-radius: 12px;
+      padding: 40px 20px 20px;
+      height: 350px;
+      position: relative;
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      border: 1px solid #27272a;
+    }
+
+    .bar-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 150px;
+      height: 100%;
+      justify-content: flex-end;
+      position: relative;
+    }
+
+    .bar {
+      width: 100px;
+      border-radius: 6px 6px 0 0;
+      transition: height 0.4s ease-out;
+      position: relative;
+    }
+
+    .bar-investment {
+      background: #71717a;
+    }
+
+    .bar-return {
+      background: var(--accent);
+    }
+
+    .bar-label-top {
+      position: absolute;
+      top: -30px;
+      width: 100%;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.9em;
+      color: #e4e4e7;
+    }
+
+    .bar-label-bottom {
+      margin-top: 15px;
+      font-size: 0.85em;
+      color: #a1a1aa;
+    }
+
+    .chart-axis-lines {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 40px 0 20px 0;
+    }
+
+    .axis-line {
+      border-bottom: 1px dashed #27272a;
+      width: 100%;
+      position: relative;
+    }
+    .axis-line span {
+      position: absolute;
+      left: 15px;
+      bottom: 2px;
+      font-size: 0.7em;
+      color: #52525b;
+    }
+
+    .sliders-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      row-gap: 30px;
+      column-gap: 40px;
+    }
+
+    .calc-footer {
+      margin-top: 40px;
+      text-align: left;
+    }
+    .calc-footer p {
+      color: #a1a1aa;
+      font-size: 0.9em;
+      margin-bottom: 15px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+      .calc-header {
+        flex-direction: column;
+      }
+      .sliders-grid {
+        grid-template-columns: 1fr;
+      }
+      .bar-wrapper {
+        width: 100px;
+      }
+      .bar {
+        width: 60px;
+      }
+      .link-error-list li {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="hero">
+      <h1>Consultoría Operativa <span>Conect-R</span></h1>
+      <p>El ecosistema tecnológico es la mejor herramienta del mundo, pero sin una estructura operativa sólida y un buen uso, el software no hace magia por sí solo. Este es nuestro Plan de Asesorías de 4 Meses.</p>
+    </div>
+
+    <!-- SECCIÓN: COMPROMISO Y DINÁMICA DEL PLAN -->
+    <div class="message-box" style="background: rgba(147, 197, 253, 0.05); border-color: var(--accent);">
+      <h3 style="color: var(--accent);">Dinámica y Compromiso Requerido</h3>
+      <p>El plan de asesorías incluye <strong>2 sesiones semanales</strong>. Para garantizar el éxito de esta transformación, es requisito indispensable contar con su <strong>apoyo total</strong> y que designen a personas clave responsables de cada área. Nosotros nos encargaremos de asesorarlos y capacitarlos, pero el resultado dependerá del compromiso y ejecución de sus líderes internos.</p>
+    </div>
+ 
+    <!-- SECCIÓN: COSTO DE LA INCONSISTENCIA -->
+    <div class="message-box box-warning">
+      <h3>El Costo Oculto de la Inconsistencia</h3>
+      <p>La consistencia es el rey absoluto en la industria restaurantera. Si un cliente visita Maya esperando probar un platillo que aman y no tienen los ingredientes, no solo pierden esa venta y terminan regalando comida (comped meals); <strong>pierden a ese cliente para siempre.</strong> La falta de control en inventarios rompe la promesa que le hacen a sus clientes todos los días.</p>
+    </div>
+
+    <!-- SECCIÓN: PRESENCIA DIGITAL ROTA -->
+    <div class="message-box box-danger">
+      <h3>Presencia Digital Fragmentada y Rota</h3>
+      <p>Realizamos una auditoría de su ecosistema en línea y el resultado es crítico. Tienen tres sitios web diferentes apuntando a su negocio. Esto no solo confunde a los clientes y destruye su posicionamiento en Google (SEO), sino que al intentar interactuar con ellos, la experiencia del usuario está completamente rota:</p>
+      
+      <ul class="link-error-list">
+        <li>
+          <span class="link-url">mayacantinaymariscos.com</span>
+          <span class="link-status" style="background: rgba(239, 68, 68, 0.1); color: var(--danger);">CAÍDO Y CON ERRORES</span>
+          <p style="font-size: 0.85em; color: var(--text-muted); margin-top: 5px; width: 100%;">En la mayoría de los casos el dominio principal devuelve un error de servidor (403), y cuando en ocasiones permite entrar, lleva a una página con múltiples errores funcionales y visuales.</p>
+        </li>
+        <li>
+          <span class="link-url">mayacantina.toast.site</span>
+          <span class="link-status" style="background: rgba(245, 158, 11, 0.1); color: var(--warning);">LOOP SIN SALIDA</span>
+          <p style="font-size: 0.85em; color: var(--text-muted); margin-top: 5px; width: 100%;">Cualquier intento de hacer una reservación se convierte en un bucle frustrante (loop) que solo redirige a la sección de "Contacto", imposibilitando una reserva real.</p>
+        </li>
+        <li>
+          <span class="link-url">mayatraditionalmexicancuisine.com/home/menu/</span>
+          <span class="link-status" style="background: rgba(245, 158, 11, 0.1); color: var(--warning);">ROTO Y SIN CONTENIDO</span>
+          <p style="font-size: 0.85em; color: var(--text-muted); margin-top: 5px; width: 100%;">La página carga, pero <strong>el menú no existe</strong>. Muestra códigos de error de programación (Wordpress/js_composer) en lugar de los platillos, y la sección de "Phone Number" no tiene ningún número asignado.</p>
+        </li>
+      </ul>
+      <p style="margin-top: 15px; font-size: 0.95em; color: #cbd5e1;"><strong>...entre muchos otros errores.</strong> Es urgente centralizar todo bajo nuestro <strong>Website Premium</strong> unificado. No pueden permitirse que un cliente intente pedir comida y se tope con servidores caídos o menús fantasmas.</p>
+    </div>
+
+    <!-- SECCIÓN: NUESTRO EXPERTISE -->
+    <div class="message-box" style="background: rgba(16, 185, 129, 0.05); border-color: var(--success); margin-top: 40px;">
+      <h3 style="color: var(--success);">Por Qué Nosotros: Nuestro Expertise Operativo y Logístico</h3>
+      <p>No somos solo desarrolladores de software; somos operadores, emprendedores y expertos en logística. Entendemos el negocio de los restaurantes y la atención al cliente desde todos los frentes, desde la administración hasta la puerta trasera de recepción de inventario.</p>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px;">
+        <div style="background: #18181b; border: 1px solid #27272a; padding: 20px; border-radius: 8px;">
+          <h4 style="color: #fff; margin-bottom: 5px; font-size: 1.1em;">Edgardo Maldonado</h4>
+          <p style="color: var(--primary); font-size: 0.85em; font-weight: 600; margin-bottom: 10px; text-transform: uppercase;">Especialista en Estandarización y Operaciones</p>
+          <p style="font-size: 0.9em; color: var(--text-muted);">Más de 15 años liderando operaciones, creando manuales de procesos (SOPs) e implementando métricas (KPIs) de alto rendimiento. Su enfoque garantiza que la experiencia del cliente sea impecable y que el staff opere bajo estándares consistentes.</p>
+        </div>
+        
+        <div style="background: #18181b; border: 1px solid #27272a; padding: 20px; border-radius: 8px;">
+          <h4 style="color: #fff; margin-bottom: 5px; font-size: 1.1em;">Armando Martínez</h4>
+          <p style="color: var(--primary); font-size: 0.85em; font-weight: 600; margin-bottom: 10px; text-transform: uppercase;">Especialista en Logística de Abastecimiento</p>
+          <p style="font-size: 0.9em; color: var(--text-muted);">Conoce la industria restaurantera desde adentro (FOH Management) y desde la cadena de suministro. Su experiencia en logística comercial con distribuidores masivos como Produce Express le permite optimizar flujos de inventario, reduciendo mermas y mejorando la recepción de mercancía.</p>
+        </div>
+
+        <div style="background: #18181b; border: 1px solid #27272a; padding: 20px; border-radius: 8px;">
+          <h4 style="color: #fff; margin-bottom: 5px; font-size: 1.1em;">Ricardo Orozco</h4>
+          <p style="color: var(--primary); font-size: 0.85em; font-weight: 600; margin-bottom: 10px; text-transform: uppercase;">Empresario Serial y Visión Estratégica</p>
+          <p style="font-size: 0.9em; color: var(--text-muted);">Más de 20 años de trayectoria fundando y escalando empresas en California y México. Su experiencia ejecutiva asegura que todas las soluciones operativas que implementemos se traduzcan directamente en crecimiento, reducción de costos y rentabilidad pura para el restaurante.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN: 3 PILARES -->
+    <div class="message-box box-info" style="margin-top: 40px;">
+      <h3>El Valor de la Estructura Operativa</h3>
+      <p>Nuestra propuesta va más allá del software. Hemos identificado 3 áreas clave en Maya Cantina donde la implementación combinada de tecnología y procesos operativos generará un retorno masivo en tu primer año.</p>
+    </div>
+
+    <div class="grid-3">
+      <!-- Punto 1 -->
+      <div class="card">
+        <div class="card-icon">📉</div>
+        <h3>Inventory & POS Consistency</h3>
+        <p>Los ingredientes faltantes y cargos no anunciados en eventos están matando la consistencia. Esto lleva a platillos regalados, ventas perdidas y clientes enojados. Arreglar el sistema de inventario detiene este "sangrado" y asegura que la promesa al cliente siempre se cumpla.</p>
+        <div class="value-tag" id="card-val-inv">Conserva: $1,000 / mes</div>
+      </div>
+
+      <!-- Punto 2 -->
+      <div class="card">
+        <div class="card-icon">☕</div>
+        <h3>New Revenue (Coffee Bar)</h3>
+        <p>Transformar ese espacio de entrada sin usar en una estación de café y repostería para las mañanas/tardes crea un flujo de ingresos completamente nuevo con los vecinos, sin canibalizar su servicio de cena ni alterar el flujo principal.</p>
+        <div class="value-tag" id="card-val-coffee">Nueva Ganancia: $3,000 / mes</div>
+      </div>
+
+      <!-- Punto 3 -->
+      <div class="card">
+        <div class="card-icon">🏃</div>
+        <h3>Operational Efficiency (Staffing)</h3>
+        <p>La falta de un host crea caos en la primera impresión y hace que los meseros hagan de todo. Organizar el piso reduce la rotación de personal (que es carísima) y permite a los meseros rotar las mesas más rápido con un flujo impecable.</p>
+        <div class="value-tag" id="card-val-eff">Eficiencia: $500 / mes</div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN: SINERGIA SOFTWARE + CONSULTORÍA -->
+    <div class="message-box" style="background: rgba(240, 165, 0, 0.05); border-color: var(--primary); margin-top: 20px;">
+      <h3 style="color: var(--primary);">El Ecosistema en Acción: Software + Consultoría</h3>
+      <p>Las herramientas de nuestra <strong>Propuesta Comercial</strong> no funcionan en el vacío. Aquí mostramos cómo nuestro software actúa como el motor, y nuestra consultoría operativa como el piloto que garantiza los resultados:</p>
+      
+      <div style="margin-top: 20px; display: grid; gap: 15px;">
+        <div style="background: #18181b; border: 1px solid #27272a; padding: 15px; border-radius: 8px;">
+          <p style="margin: 0; font-size: 0.95em;"><strong style="color: #93c5fd;">Website Premium + Table Reserve + NextUp:</strong> La tecnología unifica la presencia digital y automatiza las reservas. Nuestra consultoría entrena al Host para dominar este flujo, eliminando el caos en la puerta y maximizando la rotación de mesas.</p>
+        </div>
+        <div style="background: #18181b; border: 1px solid #27272a; padding: 15px; border-radius: 8px;">
+          <p style="margin: 0; font-size: 0.95em;"><strong style="color: var(--success);">Plataforma Chamba:</strong> El software elimina el desorden en la gestión del equipo y los horarios. Nuestra consultoría usa Chamba para implementar los manuales de operación (SOPs), asegurando que meseros, cocina y gerentes operen bajo un mismo estándar de alta eficiencia.</p>
+        </div>
+        <div style="background: #18181b; border: 1px solid #27272a; padding: 15px; border-radius: 8px;">
+          <p style="margin: 0; font-size: 0.95em;"><strong style="color: var(--primary);">NFC Stands + TV Menu Boards:</strong> El hardware agiliza los pedidos y moderniza la experiencia. Nosotros capacitamos a tu equipo en el nuevo flujo de servicio y ventas sugestivas para convertir esta velocidad tecnológica en ingresos directos para el Coffee Bar.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALCULADORA ROI (FIJA) -->
+    <div class="calculator-section">
+      <div class="calc-intro">
+        <p style="color: var(--text-muted); font-size: 1.05em;">A continuación se presenta la proyección de Retorno de Inversión (ROI) para el primer año, <strong>integrando los costos totales del ecosistema (Setup + SaaS) junto con el Plan de Asesorías y Consultorías de 4 meses ($5,000 USD).</strong></p>
+      </div>
+
+      <div class="calc-container">
+        <div class="calc-header">
+          <div class="calc-title">Conect-R ROI Calculator</div>
+          <div class="calc-metrics">
+            <div class="metric">
+              <div class="metric-label">Monthly Gain</div>
+              <div class="metric-value" id="val-monthly-gain">$4,500</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Annual Gain</div>
+              <div class="metric-value" id="val-annual-gain">$54,000</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Year 1 ROI</div>
+              <div class="metric-value" id="val-roi" style="color: var(--success);">242%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <!-- Chart Grid Lines -->
+          <div class="chart-axis-lines">
+            <div class="axis-line"><span id="axis-4">$60k</span></div>
+            <div class="axis-line"><span id="axis-3">$45k</span></div>
+            <div class="axis-line"><span id="axis-2">$30k</span></div>
+            <div class="axis-line"><span id="axis-1">$15k</span></div>
+            <div class="axis-line" style="border-bottom: 1px solid #52525b;"><span id="axis-0">$0k</span></div>
+          </div>
+
+          <!-- Bars -->
+          <div class="bar-wrapper">
+            <div class="bar bar-investment" id="bar-investment" style="height: 22.38%;">
+              <div class="bar-label-top" id="lbl-investment">$15,800</div>
+            </div>
+            <div class="bar-label-bottom">Initial Investment</div>
+          </div>
+
+          <div class="bar-wrapper">
+            <div class="bar bar-return" id="bar-return" style="height: 76.5%;">
+              <div class="bar-label-top" id="lbl-return">$54,000</div>
+            </div>
+            <div class="bar-label-bottom">Year 1 Return</div>
+          </div>
+        </div>
+
+        <div class="sliders-grid" style="grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 10px;">
+          <!-- Inversión -->
+          <div style="background: #18181b; padding: 25px; border-radius: 12px; border: 1px solid #27272a;">
+            <h4 style="color: var(--danger); margin-bottom: 15px; border-bottom: 1px solid #27272a; padding-bottom: 10px;">Inversión Total Año 1</h4>
+            
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+              <span style="color: #a1a1aa;">Setup Ecosistema (Pago Único)</span>
+              <strong style="color: #fff;">$1,800</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+              <span style="color: #a1a1aa;">Licencia SaaS ($750/mes x 12)</span>
+              <strong style="color: #fff;">$9,000</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+              <span style="color: #a1a1aa;">Consultoría (4 meses)</span>
+              <strong id="val-box-consulting" style="color: #fff;">$5,000</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 15px; padding-top: 10px; border-top: 1px solid #27272a;">
+              <span style="color: #e4e4e7; font-weight: 600;">Total Inversión</span>
+              <strong id="val-box-total-inv" style="color: var(--danger); font-size: 1.2em;">$15,800</strong>
+            </div>
+          </div>
+
+          <!-- Retorno -->
+          <div style="background: #18181b; padding: 25px; border-radius: 12px; border: 1px solid #27272a;">
+            <h4 style="color: var(--success); margin-bottom: 15px; border-bottom: 1px solid #27272a; padding-bottom: 10px;">Retorno Estimado Año 1</h4>
+            
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+              <span style="color: #a1a1aa;">Ahorro Inventario (Anual)</span>
+              <strong id="val-box-inv" style="color: #fff;">$12,000</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+              <span style="color: #a1a1aa;">Ingresos Coffee Bar (Anual)</span>
+              <strong id="val-box-coffee" style="color: #fff;">$36,000</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+              <span style="color: #a1a1aa;">Eficiencia Staff (Anual)</span>
+              <strong id="val-box-eff" style="color: #fff;">$6,000</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 15px; padding-top: 10px; border-top: 1px solid #27272a;">
+              <span style="color: #e4e4e7; font-weight: 600;">Total Retorno</span>
+              <strong id="val-box-total-ret" style="color: var(--success); font-size: 1.2em;">$54,000</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-footer">
+          <p>Esta proyección demuestra cómo la integración de procesos operativos y tecnología genera un retorno de inversión sumamente sólido desde el primer año.</p>
+          <p>Una vez que estén cómodos con estas proyecciones, podemos comenzar a redactar el Manual de Operaciones real para la nueva posición de Host que identificamos como crítica.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

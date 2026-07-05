@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Harmonía - Tu cancionero personal interactivo con transposición de acordes e importación inteligente de IA.">
+  <title>Harmonía - Cancionero Personal</title>
+  
+  <!-- FontAwesome for Premium Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Sidebar: Left Navigation Dock -->
+    <aside class="sidebar" id="app-sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="brand-logo"><i class="fa-solid fa-music"></i></div>
+          <span class="brand-title" data-t="brand-title">Harmonía</span>
+        </div>
+        <button class="modal-close sidebar-toggle-btn" id="mobile-sidebar-close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      
+      <!-- Search and Filter Panel -->
+      <div class="search-filter-container">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" class="search-input" id="search-bar" placeholder="Buscar canciones, artistas..." data-t-placeholder="search-placeholder">
+        </div>
+        <div class="filters-row">
+          <select class="filter-select" id="filter-genre">
+            <option value="" data-t="all-genres">Todos los géneros</option>
+          </select>
+          <select class="filter-select" id="filter-key">
+            <option value="" data-t="all-keys">Todos los tonos</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- List of Songs -->
+      <div class="song-list-container" id="song-list">
+        <!-- Injected dynamically by app.js -->
+      </div>
+      
+      <!-- Sidebar Action Buttons -->
+      <div class="sidebar-footer">
+        <button class="btn btn-primary" id="btn-new-song">
+          <i class="fa-solid fa-plus"></i> <span data-t="new-song">Nueva Canción</span>
+        </button>
+        <button class="btn btn-secondary" id="btn-ai-import">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-t="ai-import">Importar con IA</span>
+        </button>
+        
+        <div class="btn-row">
+          <button class="btn btn-secondary" id="btn-backup" title="Copias de Seguridad" data-t-title="backup-title">
+            <i class="fa-solid fa-database"></i> <span data-t="backup">Respaldo</span>
+          </button>
+          <button class="btn btn-secondary" id="btn-settings-trigger" title="Configuración de IA" data-t-title="settings-title">
+            <i class="fa-solid fa-gear"></i> <span data-t="settings">Ajustes</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- Main Content Area: Right Panel -->
+    <main class="main-content">
+      
+      <!-- Top Header Toolbar -->
+      <header class="toolbar">
+        <div class="toolbar-left">
+          <button class="sidebar-toggle-btn" id="mobile-sidebar-toggle" style="display: none;"><i class="fa-solid fa-bars"></i></button>
+          <div class="song-main-details" id="song-header-details">
+            <!-- Rendered dynamically -->
+            <h1 class="song-main-title" data-t="select-song">Selecciona una canción</h1>
+            <div class="song-main-meta">
+              <span data-t="welcome-sub">Bienvenido a tu repertorio personal</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="toolbar-right">
+          <!-- Translation switch button -->
+          <button class="btn btn-secondary" id="btn-lang-toggle" title="Cambiar idioma de la interfaz" data-t-title="lang-toggle-title">
+            <i class="fa-solid fa-globe"></i> <span>ES</span>
+          </button>
+          
+          <!-- Light/Dark Mode Switch -->
+          <button class="btn btn-secondary" id="btn-theme-toggle" title="Cambiar tema oscuro/claro" data-t-title="theme-toggle-title">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+        </div>
+      </header>
+      
+      <!-- Floating / Sticky Controls -->
+      <section class="control-bar" id="viewer-controls" style="display: none;">
+        
+        <!-- Key & Transposition Control -->
+        <div class="control-group">
+          <span class="control-label" data-t="ctrl-key">Tono</span>
+          <div class="control-btn-group">
+            <button class="control-btn" id="btn-transpose-down" title="Bajar un semitono" data-t-title="transpose-down-title"><i class="fa-solid fa-minus"></i></button>
+            <span class="control-btn-indicator" id="current-key-display">C</span>
+            <button class="control-btn" id="btn-transpose-up" title="Subir un semitono" data-t-title="transpose-up-title"><i class="fa-solid fa-plus"></i></button>
+          </div>
+        </div>
+        
+        <!-- Chord System (EN / ES Notation) -->
+        <div class="control-group">
+          <span class="control-label" data-t="ctrl-notation">Acordes</span>
+          <div class="control-btn-group">
+            <button class="control-btn" id="btn-chord-notation" title="Cambiar sistema de cifrado" data-t-title="notation-title">
+              <span>ENG</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Visualizer Mode (Both, Chords Only, Lyrics Only) -->
+        <div class="control-group">
+          <span class="control-label" data-t="ctrl-view">Ver</span>
+          <div class="control-btn-group">
+            <button class="control-btn active" id="btn-view-both" title="Letra y Acordes" data-t-title="view-both-title"><i class="fa-solid fa-lines-leaning"></i></button>
+            <button class="control-btn" id="btn-view-chords" title="Solo Acordes" data-t-title="view-chords-title"><i class="fa-solid fa-music"></i></button>
+            <button class="control-btn" id="btn-view-lyrics" title="Solo Letra" data-t-title="view-lyrics-title"><i class="fa-solid fa-font"></i></button>
+          </div>
+        </div>
+        
+        <!-- Font Size Controls -->
+        <div class="control-group">
+          <span class="control-label" data-t="ctrl-font">Tamaño</span>
+          <div class="control-btn-group">
+            <button class="control-btn" id="btn-font-decrease" title="Reducir letra" data-t-title="font-decrease-title"><i class="fa-solid fa-text-height"></i>-</button>
+            <button class="control-btn" id="btn-font-increase" title="Aumentar letra" data-t-title="font-increase-title"><i class="fa-solid fa-text-height"></i>+</button>
+          </div>
+        </div>
+        
+        <!-- Auto scroll control -->
+        <div class="control-group">
+          <span class="control-label" data-t="ctrl-scroll">Auto-scroll</span>
+          <div class="speed-slider-container">
+            <button class="control-btn" id="btn-scroll-play" title="Reproducir auto-scroll" data-t-title="scroll-play-title"><i class="fa-solid fa-play"></i></button>
+            <input type="range" class="speed-slider" id="scroll-speed" min="1" max="10" value="3" title="Velocidad de desplazamiento" data-t-title="scroll-speed-title">
+          </div>
+        </div>
+        
+        <!-- Actions (Edit, Print, Delete) -->
+        <div class="control-group">
+          <div class="control-btn-group">
+            <button class="control-btn" id="btn-edit-song" title="Editar canción" data-t-title="edit-title"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button class="control-btn" id="btn-print-song" title="Imprimir acordes" data-t-title="print-title"><i class="fa-solid fa-print"></i></button>
+            <button class="control-btn" id="btn-delete-song" title="Eliminar canción" data-t-title="delete-title" style="color: var(--danger);"><i class="fa-solid fa-trash-can"></i></button>
+          </div>
+        </div>
+        
+      </section>
+      
+      <!-- Canvas Panel: Renders the active song chords/lyrics -->
+      <section class="song-canvas" id="song-viewer-canvas">
+        <div class="song-sheet-wrapper" id="song-sheet-wrapper">
+          
+          <!-- Empty State Dashboard (default when no song selected) -->
+          <div class="empty-state" id="empty-state-view">
+            <div class="empty-state-icon"><i class="fa-solid fa-guitar"></i></div>
+            <h2 class="empty-state-title" data-t="empty-title">Tu repertorio está listo</h2>
+            <p class="empty-state-text" data-t="empty-desc">
+              Selecciona una canción en la barra lateral para ver sus acordes, transpón tonos en vivo, usa el auto-scroll manos libres o crea tus propias canciones usando Inteligencia Artificial.
+            </p>
+            <div style="display:flex; gap: 12px; margin-top: 10px;">
+              <button class="btn btn-secondary" onclick="document.getElementById('btn-new-song').click()"><i class="fa-solid fa-plus"></i> <span data-t="new-song">Nueva Canción</span></button>
+              <button class="btn btn-primary" onclick="document.getElementById('btn-ai-import').click()"><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-t="ai-import">Importar con IA</span></button>
+            </div>
+          </div>
+          
+          <div class="song-lyrics" id="song-lyrics-render" style="display: none;">
+            <!-- Parsed and formatted ChordPro elements injected here -->
+          </div>
+          
+        </div>
+      </section>
+      
+    </main>
+  </div>
+  
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toast-container"></div>
+  
+  <!-- MODAL: SETTINGS (Gemini API Key) -->
+  <dialog id="modal-settings">
+    <div class="modal-header">
+      <h3 class="modal-title"><i class="fa-solid fa-gear"></i> <span data-t="settings-modal-title">Configuración de Gemini IA</span></h3>
+      <button class="modal-close" onclick="closeModal('modal-settings')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 12px;" data-t="settings-desc">
+          Para importar canciones automáticamente desde cualquier sitio web usando Inteligencia Artificial, necesitas ingresar una Gemini API Key de Google. La clave se almacena de forma totalmente local en tu navegador y las peticiones van directamente a Google.
+        </p>
+        <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--chord-color); font-size: 0.85rem; font-weight: 600; text-decoration: none; margin-bottom: 16px; display: inline-block;">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> <span data-t="settings-get-key">Obtener una Gemini API Key gratis aquí</span>
+        </a>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="setting-gemini-key" data-t="settings-key-label">Gemini API Key</label>
+        <input type="password" class="form-input" id="setting-gemini-key" placeholder="AIzaSy...">
+        <span class="form-note" data-t="settings-key-note">Tu clave API está encriptada a nivel de sesión y guardada solo en tu navegador.</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-settings')" data-t="btn-cancel">Cancelar</button>
+      <button class="btn btn-primary" id="btn-save-settings" data-t="btn-save">Guardar</button>
+    </div>
+  </dialog>
+  
+  <!-- MODAL: AI IMPORT (Paste webpage content to format) -->
+  <dialog id="modal-ai-import">
+    <div class="modal-header">
+      <h3 class="modal-title"><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-t="ai-modal-title">Importar Canción con IA</span></h3>
+      <button class="modal-close" onclick="closeModal('modal-ai-import')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      
+      <!-- API Key warning if not set -->
+      <div id="ai-import-key-warning" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; display: none;">
+        <p style="font-size: 0.85rem; color: var(--danger); font-weight: 500;">
+          <i class="fa-solid fa-circle-exclamation"></i> <span data-t="ai-key-warning">Necesitas configurar una clave API de Gemini antes de usar la importación con IA.</span>
+          <button class="btn btn-secondary" onclick="closeModal('modal-ai-import'); openModal('modal-settings')" style="padding: 4px 8px; font-size: 0.75rem; margin-top: 6px; display: block; border-color: rgba(239,68,68,0.3);" data-t="ai-config-now">Configurar ahora</button>
+        </p>
+      </div>
+
+      <div class="ai-status-indicator" id="ai-status-indicator">
+        <div class="ai-status-spinner"></div>
+        <span id="ai-status-text" data-t="ai-status-processing">Procesando y formateando canción con Gemini...</span>
+      </div>
+
+      <div class="form-group">
+        <p style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted);" data-t="ai-instructions">
+          Entra a cualquier sitio web de canciones (como LaCuerda, Ultimate Guitar, etc.), selecciona todo el texto de la página (<strong>Ctrl+A</strong> / <strong>Cmd+A</strong>) y cópialo. Pégalo aquí abajo. La Inteligencia Artificial limpiará los anuncios, menús, comentarios e instrucciones, dejando únicamente la canción estructurada y con acordes bien alineados.
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="ai-source-url" data-t="ai-url-label">Enlace de Origen (Opcional)</label>
+        <input type="url" class="form-input" id="ai-source-url" placeholder="https://lacuerda.net/... o https://tabs.ultimate-guitar.com/...">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="ai-paste-area" data-t="ai-content-label">Contenido Copiado de la Web (Letras, Acordes, Publicidad...)</label>
+        <textarea class="form-textarea" id="ai-paste-area" placeholder="Pega el contenido completo aquí..."></textarea>
+      </div>
+      
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-ai-import')" data-t="btn-cancel">Cancelar</button>
+      <button class="btn btn-primary" id="btn-process-ai"><i class="fa-solid fa-brain"></i> <span data-t="ai-btn-process">Procesar con IA</span></button>
+    </div>
+  </dialog>
+  
+  <!-- MODAL: SONG EDITOR (Manual creation/edit) -->
+  <dialog id="modal-editor">
+    <div class="modal-header">
+      <h3 class="modal-title" id="editor-modal-title"><i class="fa-solid fa-pen-to-square"></i> <span data-t="editor-title-new">Nueva Canción</span></h3>
+      <button class="modal-close" onclick="closeModal('modal-editor')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editor-song-id">
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="editor-title" data-t="editor-song-title">Título de la Canción</label>
+          <input type="text" class="form-input" id="editor-title" required placeholder="Ej: De Música Ligera">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="editor-artist" data-t="editor-song-artist">Artista / Banda</label>
+          <input type="text" class="form-input" id="editor-artist" required placeholder="Ej: Soda Stereo">
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="editor-genre" data-t="editor-song-genre">Género</label>
+          <input type="text" class="form-input" id="editor-genre" placeholder="Ej: Rock Latino">
+        </div>
+        <div class="form-row" style="gap: 12px;">
+          <div class="form-group">
+            <label class="form-label" for="editor-key" data-t="editor-song-key">Tono Original</label>
+            <input type="text" class="form-input" id="editor-key" placeholder="Ej: Bm o C" style="text-transform: capitalize;">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="editor-bpm" data-t="editor-song-bpm">BPM (Tempo)</label>
+            <input type="number" class="form-input" id="editor-bpm" placeholder="Ej: 120" min="40" max="300">
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" for="editor-content" data-t="editor-song-content">Letra y Acordes (Formato ChordPro)</label>
+        
+        <!-- Chord assistant bar -->
+        <div class="editor-chord-helper">
+          <span style="font-size: 0.75rem; color: var(--text-muted); width: 100%; margin-bottom: 4px;" data-t="editor-helper-text">Inserta acordes en la posición del cursor:</span>
+          <button type="button" class="chord-helper-btn" onclick="insertChord('[C]')">C</button>
+          <button type="button" class="chord-helper-btn" onclick="insertChord('[D]')">D</button>
+          <button type="button" class="chord-helper-btn" onclick="insertChord('[E]')">E</button>
+          <button type="button" class="chord-helper-btn" onclick="insertChord('[F]')">F</button>
+          <button type="button" class="chord-helper-btn" onclick="insertChord('[G]')">G</button>
+          <button type="button" class="chord-helper-btn" onclick="insertChord('[A]')">A</button>
+          <button type="button" class="chord-helper-btn" onclick="insertChord('[B]')">B</button>
+          <button type="button" class="chord-helper-btn" onclick="insertChord('[Am]')">Am</button>
+          <button type="button" class="chord-helper-btn" onclick="insertChord('[Dm]')">Dm</button>
+          <button type="button" class="chord-helper-btn" onclick="insertChord('[Em]')">Em</button>
+          <button type="button" class="chord-helper-btn" onclick="insertChord('[G7]')">G7</button>
+        </div>
+        
+        <textarea class="form-textarea" id="editor-content" required placeholder="Ej: [C]Imagina que no hay [F]cielo..."></textarea>
+        <span class="form-note" data-t="editor-chordpro-note">Usa corchetes como [C] o [G#m] antes de la sílaba correspondiente para alinear los acordes.</span>
+      </div>
+      
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-editor')" data-t="btn-cancel">Cancelar</button>
+      <button class="btn btn-primary" id="btn-save-song" data-t="btn-save">Guardar Canción</button>
+    </div>
+  </dialog>
+  
+  <!-- MODAL: BACKUP & DATABASE ACTIONS -->
+  <dialog id="modal-backup">
+    <div class="modal-header">
+      <h3 class="modal-title"><i class="fa-solid fa-database"></i> <span data-t="backup-modal-title">Respaldar Repertorio</span></h3>
+      <button class="modal-close" onclick="closeModal('modal-backup')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group" style="gap: 16px;">
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 16px; border-radius: 8px;">
+          <h4 style="font-weight: 600; margin-bottom: 8px;" data-t="backup-export-title">Exportar Repertorio</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;" data-t="backup-export-desc">
+            Descarga todas tus canciones guardadas en un único archivo de respaldo JSON para guardarlo en tu computadora o compartirlo con otros dispositivos.
+          </p>
+          <button class="btn btn-primary" id="btn-export-database" style="width: 100%;">
+            <i class="fa-solid fa-file-arrow-down"></i> <span data-t="backup-export-btn">Exportar a JSON</span>
+          </button>
+        </div>
+        
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 16px; border-radius: 8px;">
+          <h4 style="font-weight: 600; margin-bottom: 8px;" data-t="backup-import-title">Importar Repertorio</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;" data-t="backup-import-desc">
+            Carga un archivo de respaldo JSON generado previamente para restaurar o combinar tus canciones en este dispositivo.
+          </p>
+          <input type="file" id="import-file-input" accept=".json" style="display: none;">
+          <button class="btn btn-secondary" onclick="document.getElementById('import-file-input').click()" style="width: 100%;">
+            <i class="fa-solid fa-file-arrow-up"></i> <span data-t="backup-import-btn">Seleccionar Archivo JSON</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-backup')" data-t="btn-close">Cerrar</button>
+    </div>
+  </dialog>
+
+  <!-- Default Songs data load -->
+  <script src="js/default-songs.js"></script>
+  <!-- Main Application Logic script -->
+  <script src="js/app.js"></script>
+</body>
+</html>

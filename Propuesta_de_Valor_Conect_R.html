@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Propuesta de Valor - Ecosistema Conect-R</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #050507;
+      --card-bg: rgba(20, 20, 25, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.05);
+      --primary: #f59e0b; /* Golden Orange */
+      --primary-glow: rgba(245, 158, 11, 0.15);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --success: #10b981;
+      --accent-blue: #3b82f6;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding: 0;
+      margin: 0;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Decorative background glowing spots */
+    .glow-1 {
+      position: absolute;
+      top: 5%;
+      left: -10%;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+      filter: blur(120px);
+      z-index: 0;
+    }
+
+    .glow-2 {
+      position: absolute;
+      top: 50%;
+      right: -10%;
+      width: 45vw;
+      height: 45vw;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+      filter: blur(120px);
+      z-index: 0;
+    }
+
+    /* Page Structure for exactly 2 pages */
+    .page {
+      min-height: 100vh;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 50px 24px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .page:last-child {
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    /* Header nav style */
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+
+    .logo span {
+      color: var(--primary);
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.5em;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+
+    h1 span {
+      background: linear-gradient(to right, #f59e0b, #d97706);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .tagline {
+      font-size: 1.05em;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Content sections */
+    section {
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5em;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--glass-border), transparent);
+    }
+
+    /* Core Statement Box */
+    .statement-box {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      margin-bottom: 35px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .statement-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--primary);
+    }
+
+    .statement-box p {
+      font-size: 1.1em;
+      font-weight: 500;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    /* Pillars Grid System */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .pillar-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 25px 22px;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .pillar-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(245, 158, 11, 0.25);
+      box-shadow: 0 12px 30px rgba(245, 158, 11, 0.05);
+    }
+
+    /* Floating numbers that don't overlap layout */
+    .pillar-number {
+      font-family: 'Outfit', sans-serif;
+      font-size: 45px;
+      font-weight: 900;
+      color: rgba(245, 158, 11, 0.08);
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      line-height: 1;
+      user-select: none;
+      z-index: 0;
+    }
+
+    .pillar-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(245, 158, 11, 0.1);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      color: var(--primary);
+      z-index: 1;
+    }
+
+    .pillar-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15em;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-main);
+      z-index: 1;
+    }
+
+    .pillar-card p {
+      color: var(--text-muted);
+      font-size: 0.85em;
+      margin-bottom: 15px;
+      z-index: 1;
+      flex-grow: 1;
+    }
+
+    .pillar-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      z-index: 1;
+    }
+
+    .pillar-list li {
+      position: relative;
+      padding-left: 18px;
+      margin-bottom: 8px;
+      font-size: 0.8em;
+      color: var(--text-main);
+    }
+
+    .pillar-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: bold;
+    }
+
+    /* Page 2 - Comparison Cards Grid (More Compact) */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    /* Make last elements span if needed, but 3 columns is neat */
+    .compare-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .compare-card:nth-child(4) {
+      grid-column: span 1;
+    }
+
+    .compare-card:nth-child(5) {
+      grid-column: span 2;
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .compare-card:nth-child(5) .compare-header {
+      min-width: 140px;
+    }
+
+    .compare-card:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .compare-header {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 0.95em;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .compare-content {
+      color: var(--text-muted);
+      font-size: 0.8em;
+      line-height: 1.5;
+    }
+
+    .compare-content strong {
+      color: var(--text-main);
+    }
+
+    /* ROI Grid and Simulation Box */
+    .roi-grid {
+      display: grid;
+      grid-template-columns: 38% 62%;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .roi-metrics {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      justify-content: space-between;
+    }
+
+    .metric-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex: 1;
+    }
+
+    .metric-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6em;
+      font-weight: 800;
+      color: var(--success);
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .metric-desc h4 {
+      font-size: 0.85em;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    .metric-desc p {
+      font-size: 0.75em;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .roi-box {
+      background: linear-gradient(135deg, rgba(20,20,25,0.8) 0%, rgba(10,10,12,0.9) 100%);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .roi-box h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1em;
+      margin-bottom: 15px;
+      color: var(--text-main);
+    }
+
+    .roi-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8em;
+      margin-bottom: 15px;
+    }
+
+    .roi-table th, .roi-table td {
+      padding: 8px 6px;
+      text-align: right;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .roi-table th {
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.7em;
+      text-align: right;
+    }
+
+    .roi-table td.label-cell {
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .highlight-row td {
+      color: var(--success);
+      font-weight: 800;
+      font-size: 1.05em;
+      border-top: 1.5px solid var(--success);
+      border-bottom: 1.5px solid var(--success);
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    .roi-footer-note {
+      font-size: 0.7em;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* PRINT LAYOUT (PDF EXPORT SPECIFIC STYLING) */
+    @media print {
+      body {
+        background-color: #ffffff !important;
+        color: #111827 !important;
+      }
+      
+      .glow-1, .glow-2 {
+        display: none !important;
+      }
+
+      .page {
+        min-height: 100vh;
+        height: 100vh;
+        padding: 40px;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        page-break-after: always !important;
+        break-after: page !important;
+        background-color: #ffffff !important;
+        color: #111827 !important;
+      }
+
+      .logo, h1, .statement-box p, .pillar-card h3, .compare-header, .roi-box h3, .roi-table td.label-cell {
+        color: #111827 !important;
+      }
+
+      h1 span {
+        background: none !important;
+        -webkit-text-fill-color: initial !important;
+        color: #d97706 !important;
+      }
+
+      .tagline, .pillar-card p, .pillar-list li, .compare-content, .metric-desc p, .roi-footer-note {
+        color: #4b5563 !important;
+      }
+
+      .statement-box {
+        background: #f9fafb !important;
+        border: 1px solid #e5e7eb !important;
+        box-shadow: none !important;
+      }
+
+      .pillar-card, .compare-card, .metric-card, .roi-box {
+        background: #f9fafb !important;
+        border: 1px solid #e5e7eb !important;
+        box-shadow: none !important;
+      }
+
+      .pillar-number {
+        color: rgba(217, 119, 6, 0.12) !important;
+      }
+
+      .pillar-icon {
+        background: rgba(217, 119, 6, 0.08) !important;
+        color: #d97706 !important;
+      }
+
+      .compare-header {
+        color: #d97706 !important;
+      }
+
+      .roi-table th {
+        color: #6b7280 !important;
+        border-bottom: 1px solid #e5e7eb !important;
+      }
+
+      .roi-table td {
+        border-bottom: 1px solid #e5e7eb !important;
+        color: #111827 !important;
+      }
+
+      .highlight-row td {
+        background: rgba(16, 185, 129, 0.08) !important;
+        color: #047857 !important;
+        border-top: 1.5px solid #047857 !important;
+        border-bottom: 1.5px solid #047857 !important;
+      }
+
+      .metric-num {
+        color: #047857 !important;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        min-height: auto;
+        height: auto;
+        padding: 40px 15px;
+      }
+      .pillars-grid, .compare-grid, .roi-grid {
+        grid-template-columns: 1fr;
+      }
+      .compare-card:nth-child(5) {
+        grid-column: span 1;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      h1 {
+        font-size: 2em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Decorative ambient lighting spots (screen only) -->
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+
+  <!-- ================= PAGE 1 ================= -->
+  <div class="page page-1">
+    
+    <header>
+      <div class="logo">
+        Conect-<span>R</span>
+      </div>
+      <h1>Propuesta de Valor <span>Estratégica</span></h1>
+      <p class="tagline">La solución tecnológica integrada para acelerar el crecimiento, optimizar la experiencia de usuario y digitalizar la gestión de tu restaurante.</p>
+    </header>
+
+    <section>
+      <div class="statement-box">
+        <p>
+          <strong>Conect-R</strong> es el ecosistema operativo y de diseño definitivo para restaurantes. Nuestra propuesta de valor radica en la capacidad de integrar la presencia digital premium, la interacción con clientes y la administración interna en un solo paquete cohesivo. Al consolidar estas herramientas en una sola plataforma, eliminamos la necesidad de múltiples proveedores tecnológicos, reducimos la fricción operativa y garantizamos un diseño estético de alta conversión que potencia el marketing y las ventas de tu negocio.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Pilares del Ecosistema Conect-R</h2>
+      <div class="pillars-grid">
+        
+        <!-- Pillar 1 -->
+        <div class="pillar-card">
+          <div class="pillar-number">01</div>
+          <div class="pillar-icon">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3>Presencia y Experiencia Premium</h3>
+          <p>Elevamos el prestigio visual de tu marca usando estrategias de marketing de conversión desde el primer instante de contacto digital.</p>
+          <ul class="pillar-list">
+            <li><strong>Sitio Web a Medida:</strong> Diseño atractivo estructurado para convertir visitantes en reservas, evitando plantillas genéricas.</li>
+            <li><strong>NFC Stands:</strong> Menú digital limpio al alcance de un tap del cliente directamente en su mesa.</li>
+            <li><strong>TV Menu Boards:</strong> Pantallas dinámicas ubicadas estratégicamente para impulsar la venta sugestiva en el local.</li>
+          </ul>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="pillar-card">
+          <div class="pillar-number">02</div>
+          <div class="pillar-icon">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+          </div>
+          <h3>Interacción & Soporte Automatizado</h3>
+          <p>Mantenemos canales de comunicación fluidos y resolutivos sin cargar a tu personal con llamadas operativas.</p>
+          <ul class="pillar-list">
+            <li><strong>AI Assistant Integrado:</strong> Asistente conversacional inteligente bilingüe (ES/EN) operativo las 24 horas del día.</li>
+            <li><strong>Respuestas Inmediatas:</strong> Resuelve dudas del menú, horarios, disponibilidad y guía la reserva de tus clientes sin presiones de venta.</li>
+            <li><strong>Soporte de Guante Blanco:</strong> Acompañamiento local directo y cercano para ajustar tu menú o configuración en 48 horas.</li>
+          </ul>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="pillar-card">
+          <div class="pillar-number">03</div>
+          <div class="pillar-icon">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3>Gestión Interna Centralizada (Chamba)</h3>
+          <p>Controlamos el back-office del negocio para maximizar los márgenes financieros y simplificar la vida de tus gerentes.</p>
+          <ul class="pillar-list">
+            <li><strong>Dashboards en Vivo:</strong> Visualización centralizada de ventas, food cost (costo de comida) y labor cost (costo de mano de obra).</li>
+            <li><strong>Staff y Labor:</strong> Gestión de turnos, horarios y solicitudes de cambio de shifts de empleados, PTO (días pagados libres) y permisos especiales.</li>
+            <li><strong>Nómina y Propinas:</strong> Cálculo automatizado de horas de trabajo y distribución justa y eficiente de propinas.</li>
+            <li><strong>Inventario y Mermas:</strong> Gestión y costeo inteligente de recetas reduciendo desperdicios en tiempo real.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ================= PAGE 2 ================= -->
+  <div class="page page-2">
+    
+    <section>
+      <h2 class="section-title">El Factor Diferencial de Conect-R</h2>
+      <div class="compare-grid">
+        
+        <div class="compare-card">
+          <div class="compare-header">Páginas Web Premium</div>
+          <div class="compare-content">
+            Las agencias tradicionales de marketing cobran entre <strong>$2,000 y $3,000 USD</strong> únicamente por diseñar páginas web premium y estáticas. En Conect-R, tu sitio web a medida con diseño atractivo y estrategias de marketing está completamente integrado.
+          </div>
+        </div>
+
+        <div class="compare-card">
+          <div class="compare-header">Reservas sin Comisiones</div>
+          <div class="compare-content">
+            Plataformas como OpenTable o Resy te cobran cuotas y comisiones por cada reservación realizada. Con <strong>Table Reserve</strong> de Conect-R, dispones de reservaciones ilimitadas directas <strong>sin comisiones de procesamiento</strong>.
+          </div>
+        </div>
+
+        <div class="compare-card">
+          <div class="compare-header">Lista de Espera Inteligente</div>
+          <div class="compare-content">
+            A diferencia de aplicaciones de espera aisladas, <strong>NextUp</strong> se comunica de forma automática con todo el ecosistema de Conect-R, optimizando el flujo de mesas y notificando directamente a los móviles de los clientes.
+          </div>
+        </div>
+
+        <div class="compare-card">
+          <div class="compare-header">Automatización en Chamba</div>
+          <div class="compare-content">
+            Sustituye múltiples hojas de cálculo manuales. Chamba automatiza horas, propinas y la gestión interna de solicitudes de shifts y permisos (PTO), <strong>reduciendo hasta en un 50% las horas de labor administrativa</strong> de tu gerencia semanal.
+          </div>
+        </div>
+
+        <div class="compare-card">
+          <div class="compare-header">Soporte Estratégico Local</div>
+          <div class="compare-content">
+            Olvídate de los call centers impersonales y los tickets lentos. En Conect-R te brindamos un <strong>acompañamiento cercano y soporte directo de guante blanco</strong>, resolviendo solicitudes operativas o cambios de menús y enlaces digitales en un plazo menor a 48 horas.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Esquema de Retorno de Inversión (ROI) Realista</h2>
+      <div class="roi-grid">
+        
+        <div class="roi-metrics">
+          
+          <div class="metric-card">
+            <div class="metric-num">+12% a +18%</div>
+            <div class="metric-desc">
+              <h4>Incremento de Conversión en Ventas</h4>
+              <p>El sitio web diseñado con estrategias de marketing convierte el tráfico local de Google en reservaciones reales.</p>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-num">-40% a -50%</div>
+            <div class="metric-desc">
+              <h4>Ahorro de Horas Administrativas</h4>
+              <p>La automatización de turnos, PTO y propinas en Chamba libera horas valiosas de gerentes de restaurante.</p>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-num">-3% a -5%</div>
+            <div class="metric-desc">
+              <h4>Reducción de Costos de Comida y Labor</h4>
+              <p>Los tableros de food y labor cost en vivo evitan sobre-programación y reducen el desperdicio de insumos en cocina.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="roi-box">
+          <h3>Simulación de Impacto Financiero Mensual</h3>
+          
+          <table class="roi-table">
+            <thead>
+              <tr>
+                <th>Concepto Operativo</th>
+                <th>Antes de Conect-R</th>
+                <th>Con Conect-R</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="label-cell">Venta Mensual Promedio</td>
+                <td>$50,000.00 USD</td>
+                <td style="color: var(--success); font-weight: bold;">$57,500.00 USD <span style="font-size: 0.85em; color: var(--text-muted); font-weight: normal;">(+15%)</span></td>
+              </tr>
+              <tr>
+                <td class="label-cell">Costo de Alimentos y Labor (Food & Labor)</td>
+                <td>$32,500.00 USD <span style="font-size: 0.85em; color: var(--text-muted); font-weight: normal;">(65%)</span></td>
+                <td>$35,075.00 USD <span style="font-size: 0.85em; color: var(--text-muted); font-weight: normal;">(61%)</span></td>
+              </tr>
+              <tr>
+                <td class="label-cell">Comisiones de Plataformas de Reservación</td>
+                <td>$300.00 USD</td>
+                <td>$0.00 USD</td>
+              </tr>
+              <tr>
+                <td class="label-cell">Licencias de Software Fragmentadas</td>
+                <td>$250.00 USD</td>
+                <td>$0.00 USD</td>
+              </tr>
+              <tr class="highlight-row">
+                <td class="label-cell">Utilidad Bruta Operativa Mensual</td>
+                <td>$16,950.00 USD</td>
+                <td>$22,425.00 USD</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="margin-bottom: 5px;">
+            <p style="font-size: 0.85em; color: var(--text-main);">
+              <strong>Beneficio Neto Mensual Estimado: <span style="color: var(--success);">+$5,475.00 USD</span></strong>
+            </p>
+            <p style="font-size: 0.75em; color: var(--text-muted); margin-top: 3px;">
+              Una inversión en el Bundle de Conect-R ($750 - $800 USD/mes) se autofinancia desde el primer mes a través de la captación de reservas y eficiencias de back-office.
+            </p>
+          </div>
+
+          <div class="roi-footer-note">
+            *Proyección realista basada en datos promedio de restaurantes implementando automatizaciones integradas de turnos, costeo de recetas y diseño SEO local.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+</body>
+</html>

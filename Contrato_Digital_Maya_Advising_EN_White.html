@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Service & Consulting Agreement - Conect-R & Maya</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #fffdf9;
+      --text-main: #1a1a1a;
+      --text-muted: #555555;
+      --primary: #c59b27;
+      --primary-light: #fffdf2;
+      --border-color: #e5e5e5;
+      --success: #2e7d32;
+      --success-bg: #e6f7ed;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      font-size: 13px; /* Slightly smaller font to fit 7 items and text nicely */
+      line-height: 1.5;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    @page {
+      size: letter;
+      margin: 20mm 20mm;
+    }
+
+    .page {
+      page-break-after: always;
+      position: relative;
+      min-height: 230mm; 
+    }
+
+    .page:last-child {
+      page-break-after: avoid;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      margin-top: 10px;
+    }
+    .header h1 {
+      font-size: 34px;
+      font-weight: 800;
+      margin: 0;
+      color: #111111;
+      letter-spacing: -0.8px;
+    }
+    .header h1 span {
+      color: var(--primary);
+    }
+    .header p {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin: 10px 0 0 0;
+      font-weight: 500;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-top: 20px;
+      margin-bottom: 15px;
+      color: #111111;
+      border-left: 4px solid var(--primary);
+      padding-left: 12px;
+      line-height: 1.2;
+    }
+
+    .table-container {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #ffffff;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th {
+      background-color: #fafafa;
+      color: #666666;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    td {
+      padding: 13px 16px; /* Slightly more compact padding to fit all rows on page 1 */
+      border-bottom: 1px solid #f2f2f2;
+      vertical-align: middle;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    th:first-child, td:first-child {
+      text-align: left;
+    }
+    th:nth-child(2), td:nth-child(2),
+    th:nth-child(3), td:nth-child(3) {
+      text-align: right;
+      width: 160px;
+    }
+    .item-name {
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #111111;
+    }
+    .item-desc {
+      display: block;
+      font-size: 11px;
+      color: #666666;
+      font-weight: 400;
+      margin-top: 3px;
+    }
+    .price-value {
+      font-weight: 600;
+      color: #111111;
+      font-size: 13px;
+    }
+
+    /* Bundle Card Styles */
+    .bundle-card {
+      border: 2px solid var(--primary);
+      border-radius: 12px;
+      padding: 22px;
+      background-color: var(--primary-light);
+      margin-bottom: 25px;
+    }
+    .bundle-header {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+    .bundle-header h2 {
+      font-size: 18px;
+      color: var(--primary);
+      margin: 0;
+      font-weight: 800;
+    }
+    .bundle-header p {
+      color: var(--text-muted);
+      font-size: 12.5px;
+      margin: 5px 0 0 0;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .price-box {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+    }
+    .price-box h3 {
+      font-size: 11px;
+      color: #777777;
+      margin: 0 0 6px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    .old-price {
+      text-decoration: line-through;
+      color: #999999;
+      font-size: 12.5px;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .new-price {
+      font-size: 28px;
+      font-weight: 800;
+      color: #111111;
+      margin: 0;
+      line-height: 1.1;
+    }
+    .new-price span {
+      font-size: 12.5px;
+      color: #777777;
+      font-weight: 400;
+    }
+    .installments {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-top: 6px;
+      line-height: 1.3;
+    }
+    .installments-desc {
+      font-size: 10px;
+      color: #666666;
+      display: block;
+      margin-top: 2px;
+    }
+    .savings {
+      display: inline-block;
+      background-color: var(--success-bg);
+      color: var(--success);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    .bundle-footer-note {
+      font-size: 10.5px;
+      color: #777777;
+      text-align: center;
+      margin-top: 12px;
+      line-height: 1.4;
+    }
+
+    /* Clauses Styles */
+    .clauses-container {
+      margin-top: 12px;
+    }
+    .clause {
+      margin-bottom: 20px;
+    }
+    .clause-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+    .clause-text {
+      font-size: 12px;
+      color: #333333;
+      line-height: 1.5;
+      text-align: justify;
+    }
+
+    /* Formalization & Signatures */
+    .formalization-text {
+      font-size: 12.5px;
+      color: #333333;
+      line-height: 1.6;
+      text-align: justify;
+      margin-bottom: 20px;
+    }
+    .signatures-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 30px;
+    }
+    .signature-column {
+      display: flex;
+      flex-direction: column;
+    }
+    .signature-column h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0 0 20px 0;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .signature-line {
+      margin-bottom: 15px;
+      font-size: 12.5px;
+      color: #333333;
+    }
+    .signature-line strong {
+      display: block;
+      margin-bottom: 5px;
+      color: #111111;
+    }
+    .signature-line span {
+      display: inline-block;
+      width: 100%;
+      border-bottom: 1px solid #999999;
+      height: 20px;
+      margin-top: 2px;
+    }
+    .signature-box {
+      border: 1px solid #cccccc;
+      border-radius: 8px;
+      height: 120px;
+      background-color: #ffffff;
+      margin-top: 12px;
+      position: relative;
+    }
+    .signature-box::after {
+      content: "Digital Signature / Firma Digital";
+      position: absolute;
+      bottom: 8px;
+      left: 12px;
+      font-size: 10px;
+      color: #aaaaaa;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1 -->
+  <div class="page">
+    <div class="header">
+      <h1>Conect-R <span>Service & Consulting Agreement</span></h1>
+      <p>Commercial, Technological, and Strategic Agreement for Maya</p>
+    </div>
+
+    <h2 class="section-title">1. Commercial and Consulting Proposal (Maya)</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Service / Module</th>
+            <th>Implementation (Setup / Investment)</th>
+            <th>Monthly (SaaS)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <span class="item-name">Premium Website</span>
+              <span class="item-desc">Brand design and interactive interface.</span>
+            </td>
+            <td class="price-value">$1,000 USD</td>
+            <td class="price-value">$250 USD</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="item-name">Table Reserve</span>
+              <span class="item-desc">Automated reservation system.</span>
+            </td>
+            <td class="price-value">$150 USD</td>
+            <td class="price-value">$200 USD</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="item-name">NextUp</span>
+              <span class="item-desc">Smart digital waitlist.</span>
+            </td>
+            <td class="price-value">$150 USD</td>
+            <td class="price-value">$100 USD</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="item-name">Chamba</span>
+              <span class="item-desc">Staff and team management.</span>
+            </td>
+            <td class="price-value">$300 USD</td>
+            <td class="price-value">$200 USD</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="item-name">TV Menu Boards (x3)</span>
+              <span class="item-desc">Dynamic digital menus.</span>
+            </td>
+            <td class="price-value">$300 USD</td>
+            <td class="price-value">$150 USD</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="item-name">NFC Stands (50 units)</span>
+              <span class="item-desc">Hardware with protected wholesale price of $15 USD per unit.</span>
+            </td>
+            <td class="price-value">$750 USD</td>
+            <td class="price-value">$100 USD</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="item-name">Advising & Consulting Plan (4 Months)</span>
+              <span class="item-desc">Business consulting, executive coaching, and strategic advising services.</span>
+            </td>
+            <td class="price-value">$5,000 USD</td>
+            <td class="price-value">$0 USD</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page">
+    <h2 class="section-title">Our Commercial Recommendation</h2>
+    <div class="bundle-card">
+      <div class="bundle-header">
+        <h2>The Complete Ecosystem + Strategic Consulting Plan</h2>
+        <p>Maximum installed efficiency, ready to operate the restaurant with dedicated strategic advising for 4 months.</p>
+      </div>
+      
+      <div class="pricing-grid">
+        <!-- Setup & Consulting Bundle -->
+        <div class="price-box">
+          <h3>Total Implementation & Consulting Investment</h3>
+          <span class="old-price">$7,650 USD</span>
+          <div class="new-price">$6,800</div>
+          
+          <div class="installments" style="margin-top: 8px; font-size: 11px; text-align: left; background: #fafafa; padding: 8px; border-radius: 6px; border: 1px dashed #ddd;">
+            <strong style="color:#111; display:block; margin-bottom:2px;">Financing Scheme:</strong>
+            • Ecosystem: 2 monthly payments of $900 USD<br>
+            • Consulting: 4 monthly payments of $1,250 USD<br>
+            <strong style="color:var(--primary); display:block; margin-top:4px;">Or 4 fixed monthly installments of $1,700 USD</strong>
+          </div>
+          
+          <div class="savings">Initial start-up savings: $850 USD</div>
+        </div>
+        
+        <!-- Monthly Bundle -->
+        <div class="price-box">
+          <h3>Monthly Operating License (SaaS)</h3>
+          <span class="old-price">$1,000 USD</span>
+          <div class="new-price">$750 <span>/ mo</span></div>
+          <div class="savings">Savings of $250 USD per month*</div>
+        </div>
+      </div>
+
+      <p class="bundle-footer-note">* The -25% discount on the monthly license is a guaranteed support benefit valid during the first 6 months when choosing the Bundle. A preferential discount voucher has also been directly applied to the implementation (ecosystem setup) cost.</p>
+    </div>
+
+    <h2 class="section-title">2. Master Terms, Specifications & Services Agreement</h2>
+    <p style="font-size:12px; color:#333; margin-bottom:12px; text-align:justify;">This Master Terms and Specifications Agreement (the "Agreement") is entered into by and between <strong>Conect-R</strong> (the "Service Provider") and the subscribing business entity (the "Client"). By executing this Agreement, the Client acknowledges and agrees to the following terms and conditions:</p>
+
+    <div class="clauses-container">
+      <div class="clause">
+        <div class="clause-title">1. Covered Services and New Offerings</div>
+        <div class="clause-text">This Agreement governs the provision of memberships, digital routing links, NFC hardware delivery, and access to any <strong>New Service or Platform</strong> offered by Conect-R (including, but not limited to, metric dashboards, software integrations, and CRM/marketing modules). The exact specifications of the chosen tier or supplementary services will be detailed in the respective purchase order. Furthermore, it governs the provision of the business Advising and Consulting services for the duration of the agreed term.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3 -->
+  <div class="page">
+    <div class="clauses-container" style="margin-top: 10px;">
+      <div class="clause">
+        <div class="clause-title">2. Plan Eligibility and Restrictions</div>
+        <div class="clause-text">Each business entity is limited to one (1) purchase per specific plan tier. Continuous service is managed exclusively through standard plan upgrades or downgrades. Duplicate plan purchases for the same business location are strictly prohibited.</div>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">3. Plan Upgrades and Hardware Adjustments</div>
+        <div class="clause-text">When upgrading to a higher-tier plan, the initial setup fee is waived. However, the Client is responsible for paying the price difference for any additional hardware required to fulfill the specifications of the newly selected tier.</div>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">4. Digital Update Processing Times</div>
+        <div class="clause-text">All requests involving modifications to digital menus or routing links included in the active membership shall be processed and published within forty-eight (48) hours of receipt of the official request.</div>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">5. Hardware Delivery Lead Times</div>
+        <div class="clause-text">The initial procurement and delivery of custom-printed physical hardware are subject to a standard production lead time of fifteen (15) to twenty (20) business days following final design approval by the Client.</div>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">6. "Use It or Lose It" Policy</div>
+        <div class="clause-text">Monthly tier benefits, which may include stipends for hardware replacements and digital updates, do not roll over and cannot be accrued or transferred to subsequent billing cycles.</div>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">7. On-Demand Replacements</div>
+        <div class="clause-text">Hardware replacements are provided upon request, subject to active tier limits and current stock availability. Requests exceeding the allocated monthly allowance will be invoiced at $100.00 USD per bulk request, or $30.00 USD per individual unit.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 4 -->
+  <div class="page">
+    <div class="clauses-container" style="margin-top: 10px;">
+      <div class="clause">
+        <div class="clause-title">8. Cancellation and Termination Policy</div>
+        <div class="clause-text">Membership plans are billed strictly on a month-to-month basis. Cancellation may be requested at any time; however, the service will remain active until the conclusion of the current paid billing cycle. To prevent the processing of the subsequent automatic charge, cancellation requests must be submitted at least thirty (30) days prior to the next scheduled billing date. Setup fees, invoiced consulting milestones, and recurring monthly payments are <strong>non-refundable</strong>, and no partial refunds or prorated credits will be issued under any circumstances. Upon cancellation, all purchased physical hardware remains the property of the Client; nevertheless, all digital links, backend dashboard access, and cloud hosting tied to the Conect-R ecosystem will be terminated immediately upon expiration. Reinstatement of service is subject to a $50.00 USD fee. For the Consulting service, early cancellation does not waive the obligation to pay for the billing periods already started or completed in the current month.</div>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">9. Shipping and Handling Costs</div>
+        <div class="clause-text">The Client acknowledges and agrees that all shipping, handling, and delivery costs associated with the provisioning of physical hardware (e.g., NFC displays, smart cards, wristbands, or replacement parts) are the sole responsibility of the Client. Shipping fees are explicitly excluded from base tier pricing and will be securely invoiced or collected prior to dispatch.</div>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">10. Payment Authorization and Card on File</div>
+        <div class="clause-text">The Client explicitly consents to the secure, automated storage of their selected payment card within the Conect-R secure payment gateway for recurrent billing purposes. By entering into this Agreement, the Client expressly authorizes Conect-R to initiate charges against the stored payment method for all applicable monthly subscription fees, deferred consulting/advisory installments, recurring services, account add-ons, and other agreed-upon charges, until the subscription is officially terminated in accordance with Clause 8 or all consulting fees are fully settled.</div>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">11. Confidentiality and Data Privacy</div>
+        <div class="clause-text">Conect-R acknowledges that, during the provision of its modern technology and business consulting services, it may acquire access to highly proprietary and sensitive commercial data (the "Client Data"). Conect-R is firmly committed to maintaining the utmost confidentiality regarding such information, utilizing it solely and exclusively to optimize, deliver the agreed-upon services, and enhance the Client's user experience. Under no circumstances will Conect-R sell, distribute, or misuse these internal databases or metrics for the benefit of unauthorized third parties.</div>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">12. Limitation of Liability and Disclaimer of Warranties</div>
+        <div class="clause-text">Conect-R provides its applications, platforms, and services on an "AS-IS" and "AS AVAILABLE" basis. Conect-R expressly disclaims all warranties of any kind, whether express or implied, including but not limited to the implied warranties of merchantability and fitness for a particular purpose. We do not warrant that the service will be uninterrupted, error-free, or that it will generate specific sales results for the Client. Conect-R is strictly exempt from liability during scheduled maintenance windows or system updates. In terms of Advising & Consulting, Conect-R advises in good faith based on market analysis, but does not guarantee specific revenue growth, financial returns, or business outcomes, which remain the sole responsibility of the Client's operational management.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 5 -->
+  <div class="page">
+    <div class="clauses-container" style="margin-top: 10px;">
+      <div class="clause">
+        <div class="clause-text">To the maximum extent permitted by applicable law, Conect-R shall not be liable to the Client or any third party for any direct, indirect, incidental, special, or consequential damages (including loss of profits, commercial decisions made based on consulting advice, or reputational damage), arising out of software downtime, cloud hosting outages, or force majeure events. In no event shall Conect-R's aggregate liability exceed the total amount accumulated and paid by the Client in the three (3) months immediately preceding the event giving rise to the claim.</div>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">13. Intellectual Property and Enhancements</div>
+        <div class="clause-text">Each Party retains full ownership rights to its respective trademarks and brand identity. The Client retains absolute ownership of all graphical assets, logos, and menu content provided. Conversely, Conect-R perpetually and exclusively retains all rights, title, and interest in and to the online infrastructure, source codes, mobile applications, Application Programming Interfaces (APIs), underlying algorithms, proprietary databases, and dashboards associated with the Conect-R ecosystem, as well as any methodologies, templates, and frameworks applied during consulting sessions. Any ideas, suggestions, feedback, or feature requests provided by the Client shall become the sole and exclusive intellectual property of Conect-R, irrevocably, without any obligation or compensation owed to the Client.</div>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">14. License to Use</div>
+        <div class="clause-text">Subject to the Client’s ongoing compliance with this Agreement and timely payment of all fees, Conect-R grants the Client a limited, non-exclusive, non-transferable, and revocable license to access and use the provided software and customized dashboards exclusively for its internal business operations. The physical hardware delivered acts merely as an access medium and does not transfer any legal ownership or rights over the embedded Conect-R software.</div>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">15. Client Content Responsibility</div>
+        <div class="clause-text">The Client bears sole and absolute legal responsibility for the accuracy, legality, and copyright compliance of all texts, menus, logos, and images supplied to be uploaded onto Conect-R platforms or used in the consulting process. The Client unconditionally releases, indemnifies, and holds harmless Conect-R against any third-party claims, lawsuits, or penalties arising from alleged copyright infringement related to the uploaded client content.</div>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">16. Promotional Rights (Marketing)</div>
+        <div class="clause-text">The Client irrevocably authorizes Conect-R to feature its logo, trademark, and success story representation across Conect-R’s websites, social media channels, and marketing collateral as part of its public client portfolio.</div>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">17. Governing Law and Jurisdiction</div>
+        <div class="clause-text">This Agreement shall be governed by and construed in accordance with the prevailing laws of the state and country where the Conect-R corporate headquarters is legally incorporated. Any legal dispute shall be subject to the exclusive jurisdiction of said courts, and the Client explicitly waives any other jurisdiction that might otherwise correspond.</div>
+      </div>
+
+      <div class="clause">
+        <div class="clause-title">18. Modifications and Entire Agreement</div>
+        <div class="clause-text">This document constitutes the final, complete, and exclusive agreement between the Parties concerning its subject matter and supersedes all prior, unsigned discussions and iterations. Conect-R reserves the right to amend its technical policies and will provide formal notice of any structural adjustments necessary for the optimal functioning of the ecosystem.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 6 -->
+  <div class="page">
+    <h2 class="section-title">3. Agreement Formalization</h2>
+    <p class="formalization-text">By executing this Agreement, the Client acknowledges and agrees to the terms and conditions outlined in this Agreement. By signing below or providing automated validation within a secure checkout portal, the Client confirms that they have thoroughly read, fully comprehend, and agree to be legally bound by the terms and privacy stipulations of this modern software, services, and business consulting Agreement.</p>
+
+    <div class="signatures-grid" style="margin-top: 15px;">
+      <!-- CLIENT COLUMN -->
+      <div class="signature-column">
+        <h3>Client</h3>
+        
+        <div class="signature-line">
+          <strong>Authorized Representative Name:</strong>
+          <span></span>
+        </div>
+        
+        <div class="signature-line">
+          <strong>Business Name / Entity:</strong>
+          <span style="font-weight: 600; font-size: 14px; border-bottom: none; height: auto; margin-top: 4px;">Maya</span>
+        </div>
+        
+        <div class="signature-line">
+          <strong>Date:</strong>
+          <span></span>
+        </div>
+        
+        <div class="signature-box"></div>
+      </div>
+      
+      <!-- REPRESENTATIVE COLUMN -->
+      <div class="signature-column">
+        <h3>Conect-R Representative</h3>
+        
+        <div class="signature-line">
+          <strong>Representative Name:</strong>
+          <span></span>
+        </div>
+        
+        <div class="signature-line">
+          <strong>Title / Role:</strong>
+          <span></span>
+        </div>
+        
+        <div class="signature-line">
+          <strong>Date:</strong>
+          <span></span>
+        </div>
+        
+        <div class="signature-box"></div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

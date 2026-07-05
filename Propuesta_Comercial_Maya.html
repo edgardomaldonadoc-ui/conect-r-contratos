@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Propuesta Comercial - Conect-R para Maya</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0a0a0a;
+      --card-bg: #141414;
+      --border-color: #2a2a2a;
+      --primary: #f0a500;
+      --text-main: #f7f7f7;
+      --text-muted: #a3a3a3;
+      --success: #10b981;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 5px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+    .header h1 span {
+      color: var(--primary);
+    }
+    .header p {
+      font-size: 1.1em;
+      color: var(--text-muted);
+    }
+    
+    .section-title {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--border-color);
+      display: inline-block;
+      color: var(--text-main);
+    }
+
+    .table-container {
+      margin-bottom: 40px;
+      background: var(--card-bg);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      padding: 15px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 12px 10px;
+      text-align: right;
+      border-bottom: 1px solid var(--border-color);
+    }
+    th:first-child, td:first-child {
+      text-align: left;
+    }
+    th {
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.8em;
+      letter-spacing: 1px;
+    }
+    td.item-name {
+      font-weight: 600;
+      font-size: 1.05em;
+      color: var(--text-main);
+    }
+    td.item-desc {
+      display: block;
+      font-size: 0.8em;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+    tr:last-child th, tr:last-child td {
+      border-bottom: none;
+    }
+    .total-row td {
+      background: rgba(240, 165, 0, 0.05);
+      font-weight: 800;
+      font-size: 1.1em;
+      color: var(--primary);
+      border-top: 2px solid var(--primary) !important;
+    }
+
+    .bundle-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .bundle-card {
+      background: linear-gradient(145deg, #1f1a14 0%, #110e0b 100%);
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      padding: 30px;
+      max-width: 800px;
+      width: 100%;
+      position: relative;
+    }
+    .bundle-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .bundle-header h2 {
+      font-size: 1.8em;
+      margin: 0 0 5px 0;
+      color: var(--primary);
+    }
+    .bundle-header p {
+      color: var(--text-muted);
+      font-size: 1em;
+      margin: 0;
+    }
+    
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .price-box {
+      background: rgba(0,0,0,0.5);
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      text-align: center;
+    }
+    .price-box h3 {
+      font-size: 1em;
+      color: var(--text-muted);
+      margin: 0 0 10px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .old-price {
+      text-decoration: line-through;
+      color: #777;
+      font-size: 1.1em;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .new-price {
+      font-size: 2.2em;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 0;
+      line-height: 1;
+    }
+    .new-price span {
+      font-size: 0.4em;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .savings {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8em;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    
+    /* MAGIA PARA IMPRESIÓN (PRINT MODE) */
+    @media print {
+      body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+      }
+      .container {
+        padding: 0;
+        max-width: 100%;
+        margin: 0;
+      }
+      .header h1, .bundle-header h2, .total-row td {
+        color: #000000 !important;
+      }
+      .header h1 span {
+        color: #000000 !important;
+      }
+      .section-title {
+        color: #000 !important;
+        border-bottom-color: #000 !important;
+      }
+      .table-container {
+        border-color: #000 !important;
+        background: #fff !important;
+        padding: 5px;
+      }
+      th, td, .price-box {
+        border-color: #000 !important;
+        color: #000 !important;
+      }
+      td.item-name { color: #000 !important; }
+      td.item-desc { color: #333 !important; }
+      .header p, .bundle-header p {
+        color: #333 !important;
+      }
+      th { color: #000 !important; font-weight: bold; }
+      .bundle-card {
+        background: none !important;
+        border: 2px solid #000 !important;
+        padding: 20px;
+      }
+      .price-box {
+        background: none !important;
+      }
+      .new-price, .price-box h3 {
+        color: #000 !important;
+      }
+      .old-price {
+        color: #555 !important;
+      }
+      .savings {
+        background: none !important;
+        color: #000 !important;
+        border: 1px dashed #000 !important;
+      }
+      .total-row td {
+        background: #f0f0f0 !important; 
+        border-top: 2px solid #000 !important;
+      }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>Ecosistema <span>Conect-R</span></h1>
+      <p>Propuesta Comercial y Estructura de Inversión Tecnológica - Maya Cantina</p>
+    </div>
+
+    <!-- Módulos a la Carta -->
+    <h2 class="section-title">A la Carta (Módulos Individuales)</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Servicio / Módulo</th>
+            <th>Pago Inicial (Setup)</th>
+            <th>Mensualidad (SaaS)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="item-name">
+              Website Premium
+              <span class="item-desc">Infraestructura interactiva y diseño de marca.</span>
+            </td>
+            <td>$1,000 USD</td>
+            <td>$250 USD</td>
+          </tr>
+          <tr>
+            <td class="item-name">
+              Table Reserve
+              <span class="item-desc">Sistema de reservaciones automatizadas.</span>
+            </td>
+            <td>$150 USD</td>
+            <td>$200 USD</td>
+          </tr>
+          <tr>
+            <td class="item-name">
+              NextUp
+              <span class="item-desc">Lista de espera digital sincronizada (Waitlist inteligente).</span>
+            </td>
+            <td>$150 USD</td>
+            <td>$100 USD</td>
+          </tr>
+          <tr>
+            <td class="item-name">
+              Chamba
+              <span class="item-desc">Plataforma para gestión de equipos y staff.</span>
+            </td>
+            <td>$300 USD</td>
+            <td>$200 USD</td>
+          </tr>
+          <tr>
+            <td class="item-name">
+              NFC Stands (50 unidades)
+              <span class="item-desc">Hardware con precio mayoreo protegido de $15 USD la unidad.</span>
+            </td>
+             <td>$750 USD</td>
+            <td>$100 USD</td>
+          </tr>
+          <tr>
+            <td class="item-name">
+              TV Menu Boards (x3)
+              <span class="item-desc">Menús digitales en pantalla.</span>
+            </td>
+            <td>$300 USD</td>
+            <td>$150 USD</td>
+          </tr>
+          <tr class="total-row">
+            <td>Total si se adquiere por separado</td>
+            <td>$2,650 USD</td>
+            <td>$1,000 USD</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Oferta Bundle -->
+    <h2 class="section-title" style="margin-top: 10px;">Nuestra Recomendación Comercial</h2>
+    <div class="bundle-wrapper">
+      <div class="bundle-card">
+        <div class="bundle-header">
+          <h2>El Ecosistema Completo (-25% de Descuento Especial)</h2>
+          <p>La máxima eficiencia instalada, lista para operar el restaurante. Todo en uno.</p>
+        </div>
+        
+        <div class="pricing-grid">
+          <!-- Setup Bundle -->
+          <div class="price-box">
+            <h3>Costo de Implementación Total (Setup)</h3>
+            <span class="old-price">$2,650 USD</span>
+            <div class="new-price">$1,800</div>
+            <div class="savings">Ahorro en arranque inicial: $850 USD</div>
+          </div>
+          
+          <!-- Mensualidad Bundle -->
+          <div class="price-box">
+            <h3>Licencia Mensual Operativa (SaaS)</h3>
+            <span class="old-price">$1,000 USD</span>
+            <div class="new-price">$750 <span>/ mes</span></div>
+            <div class="savings">Ahorro de $250 USD al mes*</div>
+          </div>
+        </div>
+
+        <p style="text-align: center; margin-top: 20px; font-size: 0.85em; color: #777;">* El -25% de descuento en la licencia mensual es un beneficio de apoyo garantizado válido durante los primeros 6 meses al elegir el Bundle. Se incluye además un bono de descuento preferencial directo aplicado al costo de implementación (Setup).</p>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

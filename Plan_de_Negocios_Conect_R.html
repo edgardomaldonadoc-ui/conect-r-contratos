@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan de Negocios - Ecosistema Conect-R</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0a0a0a;
+      --card-bg: #141414;
+      --border-color: #2a2a2a;
+      --primary: #f0a500;
+      --text-main: #f7f7f7;
+      --text-muted: #a3a3a3;
+      --success: #10b981;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .header h1 {
+      font-size: 3em;
+      margin-bottom: 5px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+    .header h1 span {
+      color: var(--primary);
+    }
+    .header p {
+      font-size: 1.2em;
+      color: var(--text-muted);
+    }
+    
+    .section-title {
+      font-size: 1.6em;
+      margin-bottom: 20px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--border-color);
+      display: inline-block;
+      color: var(--text-main);
+      margin-top: 40px;
+    }
+
+    .content-block {
+      background: var(--card-bg);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      padding: 25px 30px;
+      margin-bottom: 25px;
+    }
+    .content-block h3 {
+      color: var(--primary);
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.3em;
+    }
+    .content-block p {
+      color: var(--text-muted);
+      margin-bottom: 15px;
+      font-size: 1.05em;
+    }
+    .content-block ul {
+      color: var(--text-muted);
+      margin-bottom: 15px;
+      font-size: 1.05em;
+      padding-left: 20px;
+    }
+    .content-block li {
+      margin-bottom: 8px;
+    }
+    .content-block strong {
+      color: var(--text-main);
+    }
+
+    .table-container {
+      margin-bottom: 40px;
+      background: var(--card-bg);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      padding: 15px;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 15px 10px;
+      text-align: right;
+      border-bottom: 1px solid var(--border-color);
+    }
+    th:first-child, td:first-child {
+      text-align: left;
+    }
+    th {
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.8em;
+      letter-spacing: 1px;
+    }
+    td.item-name {
+      font-weight: 600;
+      font-size: 1.05em;
+      color: var(--text-main);
+    }
+    td.item-desc {
+      display: block;
+      font-size: 0.85em;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-top: 4px;
+    }
+    tr:last-child th, tr:last-child td {
+      border-bottom: none;
+    }
+    .total-row td {
+      background: rgba(240, 165, 0, 0.05);
+      font-weight: 800;
+      font-size: 1.1em;
+      color: var(--primary);
+      border-top: 2px solid var(--primary) !important;
+    }
+
+    .bundle-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      margin-bottom: 40px;
+    }
+    .bundle-card {
+      background: linear-gradient(145deg, #1f1a14 0%, #110e0b 100%);
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      padding: 30px;
+      max-width: 800px;
+      width: 100%;
+      position: relative;
+    }
+    .bundle-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .bundle-header h2 {
+      font-size: 1.8em;
+      margin: 0 0 5px 0;
+      color: var(--primary);
+    }
+    .bundle-header p {
+      color: var(--text-muted);
+      font-size: 1em;
+      margin: 0;
+    }
+    
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .price-box {
+      background: rgba(0,0,0,0.5);
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      text-align: center;
+    }
+    .price-box h3 {
+      font-size: 1em;
+      color: var(--text-muted);
+      margin: 0 0 10px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .old-price {
+      text-decoration: line-through;
+      color: #777;
+      font-size: 1.1em;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .new-price {
+      font-size: 2.2em;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 0;
+      line-height: 1;
+    }
+    .new-price span {
+      font-size: 0.4em;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .savings {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8em;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    
+    .app-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .app-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+    .app-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+    }
+    .app-card h4 {
+      color: var(--text-main);
+      font-size: 1.2em;
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+    .app-card .app-subtitle {
+      color: var(--primary);
+      font-size: 0.85em;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+      display: block;
+      letter-spacing: 1px;
+    }
+    .app-card p {
+      color: var(--text-muted);
+      font-size: 0.95em;
+      margin: 0;
+    }
+
+    /* MAGIA PARA IMPRESIÓN (PRINT MODE) */
+    @media print {
+      body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+      }
+      .container {
+        padding: 0;
+        max-width: 100%;
+        margin: 0;
+      }
+      .header h1, .bundle-header h2, .total-row td, .content-block h3, .app-card h4 {
+        color: #000000 !important;
+      }
+      .header h1 span, .app-card .app-subtitle {
+        color: #000000 !important;
+      }
+      .section-title {
+        color: #000 !important;
+        border-bottom-color: #000 !important;
+      }
+      .content-block, .table-container, .app-card {
+        border-color: #ccc !important;
+        background: #fff !important;
+        color: #333 !important;
+        break-inside: avoid;
+      }
+      .content-block p, .content-block ul {
+        color: #333 !important;
+      }
+      th, td, .price-box {
+        border-color: #ccc !important;
+        color: #000 !important;
+      }
+      td.item-name { color: #000 !important; }
+      td.item-desc { color: #555 !important; }
+      .header p, .bundle-header p, .app-card p {
+        color: #333 !important;
+      }
+      th { color: #000 !important; font-weight: bold; }
+      .bundle-card {
+        background: none !important;
+        border: 2px solid #000 !important;
+        padding: 20px;
+      }
+      .price-box {
+        background: none !important;
+      }
+      .new-price, .price-box h3 {
+        color: #000 !important;
+      }
+      .old-price {
+        color: #777 !important;
+      }
+      .savings {
+        background: none !important;
+        color: #000 !important;
+        border: 1px dashed #000 !important;
+      }
+      .total-row td {
+        background: #f0f0f0 !important; 
+        border-top: 2px solid #000 !important;
+      }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .app-grid, .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+      .header h1 {
+        font-size: 2.2em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>Plan de Negocios <span>Conect-R</span></h1>
+      <p>Estrategia, Propuesta de Valor y Estructura Operativa</p>
+    </div>
+
+    <!-- 1. Resumen Ejecutivo & 2. Descripción de la Empresa -->
+    <h2 class="section-title">El Ecosistema</h2>
+    
+    <div class="content-block">
+      <h3>Resumen Ejecutivo</h3>
+      <p><strong>Conect-R</strong> es un ecosistema tecnológico integral diseñado específicamente para revolucionar la operación y la experiencia de usuario en la industria restaurantera. Nuestro enfoque se centra en ofrecer herramientas modernas y dinámicas que optimizan la gestión interna, aumentan la eficiencia del personal y mejoran la interacción digital con los clientes.</p>
+      <p>Mediante un modelo de negocio híbrido de Hardware y Software as a Service (SaaS), Conect-R se posiciona como el socio estratégico ideal para llevar la digitalización de restaurantes y establecimientos gastronómicos al siguiente nivel.</p>
+    </div>
+
+    <div class="content-block">
+      <h3>Descripción de la Empresa y Propuesta de Valor</h3>
+      <p>Conect-R no es solo un proveedor de software o creador de páginas web; es un <strong>ecosistema</strong>. La propuesta de valor radica en la capacidad de integrar soluciones fragmentadas en un solo paquete cohesivo, eliminando la necesidad de múltiples proveedores tecnológicos y reduciendo la fricción operativa.</p>
+      <ul>
+        <li><strong>Visión:</strong> Ser el sistema operativo definitivo y estético para la gestión integral de restaurantes.</li>
+        <li><strong>Misión:</strong> Proveer herramientas de muy alta calidad visual (premium), intuitivas, de rápida implementación y con altos estándares de seguridad, permitiendo a los dueños de negocios enfocarse exclusivamente en el crecimiento y la hospitalidad.</li>
+      </ul>
+    </div>
+
+    <!-- 3. Portafolio de Aplicaciones -->
+    <h2 class="section-title">Portafolio de Aplicaciones</h2>
+    <p style="color: var(--text-muted); margin-bottom: 25px;">Cada uno de los productos que conforman la suite de Conect-R está diseñado de forma independiente para resolver una necesidad crítica de la operación restaurantera, manteniendo una cohesión visual y funcional inigualable.</p>
+    
+    <div class="app-grid">
+      <div class="app-card">
+        <h4>Website Premium</h4>
+        <span class="app-subtitle">El escaparate digital de la marca</span>
+        <p>No se trata de una página web estática, sino de una infraestructura interactiva y de diseño de marca avanzado. Utilizando estéticas modernas (como glassmorphism y micro-animaciones), garantiza una experiencia visual *wow*. Integra buenas prácticas de SEO técnico de fábrica (etiquetas, semántica HTML, velocidad de carga) para potenciar la visibilidad en buscadores.</p>
+      </div>
+      
+      <div class="app-card">
+        <h4>Chamba</h4>
+        <span class="app-subtitle">Control total del Back-office</span>
+        <p>Plataforma especializada en la gestión administrativa del establecimiento, centralizando las áreas críticas del restaurante. Incluye la gestión de Staff y Labor (horarios y turnos), Control de Inventario (insumos, recetas, costos y reducción de mermas) y Payroll (cálculo de horas trabajadas y dispersión de propinas).</p>
+      </div>
+
+      <div class="app-card">
+        <h4>Table Reserve</h4>
+        <span class="app-subtitle">Gestión de mesas sin fricción</span>
+        <p>Sistema propio de reservaciones automatizadas. Facilita que los clientes aseguren su lugar en línea al tiempo que permite al restaurante optimizar su capacidad instalada, prevenir el overbooking y recolectar datos valiosos sobre el comportamiento y las preferencias de sus comensales.</p>
+      </div>
+
+      <div class="app-card">
+        <h4>NextUp</h4>
+        <span class="app-subtitle">La evolución de las filas de espera</span>
+        <p>Un waitlist (lista de espera) inteligente y sincronizado digitalmente. Los comensales se registran y reciben actualizaciones sobre su turno directamente en sus teléfonos. Elimina aglomeraciones en la entrada, optimiza la rotación de mesas y mejora la experiencia del usuario antes de sentarse.</p>
+      </div>
+
+      <div class="app-card">
+        <h4>NFC Stands</h4>
+        <span class="app-subtitle">El menú al toque de un smartphone</span>
+        <p>Soportes físicos estilizados instalados en cada mesa. Permiten a los clientes acceder de forma instantánea al menú digital completo simplemente acercando su smartphone. Agiliza la toma de pedidos, evita costos de reimpresión y permite actualizar precios en tiempo real.</p>
+      </div>
+
+      <div class="app-card">
+        <h4>TV Menu Boards</h4>
+        <span class="app-subtitle">Menús dinámicos en pantalla</span>
+        <p>Sistemas para pantallas digitales ubicadas estratégicamente en el local (barras o zonas de comida rápida). Muestran el menú, videos promocionales y especiales de forma atractiva y dinámica, impulsando las ventas sugeridas visualmente.</p>
+      </div>
+    </div>
+
+    <!-- 4. Estructura de Precios -->
+    <h2 class="section-title">Estructura de Precios y Modelo de Negocio</h2>
+    <p style="color: var(--text-muted); margin-bottom: 25px;">El modelo de ingresos se basa en un esquema de suscripción. Consiste en cobros por implementación (Setup Fee) más licencias operativas recurrentes (SaaS). Se ofrece flexibilidad "A la Carta", así como una opción preferencial en formato "Bundle".</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Servicio / Módulo</th>
+            <th>Pago Inicial (Setup)</th>
+            <th>Mensualidad (SaaS)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="item-name">
+              Website Premium
+              <span class="item-desc">Infraestructura interactiva y diseño de marca.</span>
+            </td>
+            <td>$1,000 USD</td>
+            <td>$250 USD</td>
+          </tr>
+          <tr>
+            <td class="item-name">
+              Table Reserve
+              <span class="item-desc">Sistema de reservaciones automatizadas.</span>
+            </td>
+            <td>$150 USD</td>
+            <td>$200 USD</td>
+          </tr>
+          <tr>
+            <td class="item-name">
+              NextUp
+              <span class="item-desc">Lista de espera digital sincronizada.</span>
+            </td>
+            <td>$150 USD</td>
+            <td>$100 USD</td>
+          </tr>
+          <tr>
+            <td class="item-name">
+              Chamba
+              <span class="item-desc">Plataforma para gestión de equipos y staff.</span>
+            </td>
+            <td>$300 USD</td>
+            <td>$200 USD</td>
+          </tr>
+          <tr>
+            <td class="item-name">
+              NFC Stands (50 unidades)
+              <span class="item-desc">Hardware con precio mayoreo protegido de $15 USD la unidad.</span>
+            </td>
+            <td>$750 USD</td>
+            <td>$100 USD</td>
+          </tr>
+          <tr>
+            <td class="item-name">
+              TV Menu Boards (x3)
+              <span class="item-desc">Menús digitales en pantalla.</span>
+            </td>
+            <td>$300 USD</td>
+            <td>$150 USD</td>
+          </tr>
+          <tr class="total-row">
+            <td>Total si se adquiere por separado</td>
+            <td>$2,650 USD</td>
+            <td>$1,000 USD</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="bundle-wrapper">
+      <div class="bundle-card">
+        <div class="bundle-header">
+          <h2>El Ecosistema Completo (-25% de Descuento Especial)</h2>
+          <p>Para incentivar a los clientes a utilizar toda la suite operativa en conjunto, se ofrece este Bundle garantizado durante los primeros 6 meses.</p>
+        </div>
+        
+        <div class="pricing-grid">
+          <div class="price-box">
+            <h3>Costo de Implementación Total (Setup)</h3>
+            <span class="old-price">$2,650 USD</span>
+            <div class="new-price">$1,800</div>
+            <div class="savings">Ahorro en arranque inicial: $850 USD</div>
+          </div>
+          
+          <div class="price-box">
+            <h3>Licencia Mensual Operativa (SaaS)</h3>
+            <span class="old-price">$1,000 USD</span>
+            <div class="new-price">$750 <span>/ mes</span></div>
+            <div class="savings">Ahorro de $250 USD al mes</div>
+          </div>
+        </div>
+
+        <p style="text-align: center; margin-top: 20px; font-size: 0.85em; color: #777;">* Los beneficios mensuales y reemplazos de hardware aplican una política de "Úselo o Piérdalo" no acumulable, con reemplazos excedentes facturados bajo demanda.</p>
+      </div>
+    </div>
+
+    <!-- 5. Aspectos Legales -->
+    <h2 class="section-title">Aspectos Legales y Privacidad</h2>
+    <div class="content-block">
+      <p>El marco legal de Conect-R (*Master Terms, Specifications & Services Agreement*) ha sido cuidadosamente estructurado para proteger los activos de la empresa y asegurar la tranquilidad del cliente:</p>
+      <ul>
+        <li><strong>Propiedad Intelectual y Código:</strong> Conect-R retiene exclusiva y permanentemente todos los derechos sobre la infraestructura en línea, códigos fuente, bases de datos y algoritmos. Cualquier <em>feedback</em> aportado por el cliente que se implemente pasa a ser propiedad de Conect-R.</li>
+        <li><strong>Licenciamiento Restringido:</strong> El cliente abona por una licencia limitada, no exclusiva e intransferible. La posesión del hardware físico (Stands) no transfiere ninguna propiedad intelectual sobre el software.</li>
+        <li><strong>Confidencialidad Rigurosa:</strong> Existe un compromiso estricto para proteger los datos operativos y la base de datos de clientes del restaurante. Conect-R no vende ni distribuye estos datos a terceros.</li>
+        <li><strong>Exención de Responsabilidad:</strong> El ecosistema se provee "tal cual" (*as-is*), protegiendo a Conect-R frente a exigencias por lucro cesante o interrupciones imprevisibles de servicio (*downtime*).</li>
+      </ul>
+    </div>
+
+    <!-- 6. Estrategia de Crecimiento y Marketing -->
+    <h2 class="section-title">Estrategia de Crecimiento y Expansión</h2>
+    <div class="content-block" style="border-color: var(--primary);">
+      <h3>Nuestra Visión de Escala Nacional (USA)</h3>
+      <p>El objetivo principal de Conect-R a mediano y largo plazo es la <strong>expansión agresiva y la venta en línea a lo largo de todo Estados Unidos</strong>. Nuestro modelo SaaS y el envío de hardware preconfigurado (como los NFC Stands) nos permite operar de manera deslocalizada, eliminando las barreras geográficas que tradicionalmente limitan a las agencias locales.</p>
+      <p><strong>Para lograr esta penetración en todo el territorio estadounidense:</strong></p>
+      <ul>
+        <li><strong>Estandarización y *Plug & Play*:</strong> Al no depender de un sistema POS propio que requiera instalaciones físicas complejas o hardware on-premise, los módulos de Conect-R (Website, Chamba, Table Reserve, NextUp) pueden ser activados remotamente para cualquier restaurante en USA en cuestión de horas.</li>
+        <li><strong>Marketing de Impacto Visual:</strong> La comercialización se apalanca en la excelencia de diseño estético. Al utilizar diseños premium y dinámicos que garantizan un "wow-factor", nuestras campañas digitales y landing pages generarán conversiones sin necesidad de visitas presenciales de ventas.</li>
+        <li><strong>Escalabilidad del Bundle:</strong> Promover el "Ecosistema Completo" nos permite elevar el ticket promedio (LTV) mientras el restaurante experimenta una transformación digital total con una inversión accesible, haciendo que el modelo sea altamente atractivo para pequeñas y medianas cadenas a nivel nacional.</li>
+        <li><strong>Portafolio Público Autorizado:</strong> Por contrato, Conect-R se reserva el derecho de utilizar los logotipos y casos de éxito de los clientes como material de marketing público (Social Proof), lo que construirá credibilidad masiva estado por estado.</li>
+      </ul>
+    </div>
+
+  </div>
+
+</body>
+</html>

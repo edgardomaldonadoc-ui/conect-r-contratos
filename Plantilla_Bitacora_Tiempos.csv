@@ -1,0 +1,8 @@
+Empleado,Fecha,Hora Entrada,Hora Salida,Tipo de Pausa,Hora Inicio Pausa,Hora Fin Pausa,Duracion (minutos),Notas
+Juan Perez,2026-06-17,08:00,17:36,Comida,13:00,14:00,60,Almuerzo diario
+Juan Perez,2026-06-17,08:00,17:36,Descanso,10:30,10:45,15,Coffee break de la mañana
+Juan Perez,2026-06-17,08:00,17:36,Baño,15:00,15:05,5,Pausa corta
+Maria Gomez,2026-06-17,08:30,18:06,Comida,13:30,14:30,60,Almuerzo
+Maria Gomez,2026-06-17,08:30,18:06,Falla Técnica,16:00,16:15,15,Reinicio de router de internet
+Carlos Ruiz,2026-06-17,09:00,18:36,Comida,14:00,15:00,60,Almuerzo
+Carlos Ruiz,2026-06-17,09:00,18:36,Asunto Personal,11:00,11:10,10,Atender repartidor en puerta

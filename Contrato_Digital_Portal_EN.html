@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Services Agreement - Conect-R & Client</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Digital Signature -->
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+  <!-- HTML to PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    :root {
+      --bg-color: #0a0a0a;
+      --card-bg: #141414;
+      --border-color: #2a2a2a;
+      --primary: #f0a500;
+      --text-main: #f7f7f7;
+      --text-muted: #a3a3a3;
+      --success: #10b981;
+      --danger: #ef4444;
+      --input-bg: #1e1e1e;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 5px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .header h1 span {
+      color: var(--primary);
+    }
+
+    .header p {
+      font-size: 1.1em;
+      color: var(--text-muted);
+    }
+
+    /* Setup Panel (iPad/Mobile Friendly) */
+    .setup-panel {
+      background: var(--card-bg);
+      border: 2px solid var(--primary);
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 40px;
+      box-shadow: 0 4px 20px rgba(240, 165, 0, 0.1);
+    }
+
+    .setup-panel h2 {
+      margin-top: 0;
+      font-size: 1.4em;
+      color: var(--primary);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    .grid-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-fields {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .input-field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .input-field label {
+      font-size: 0.85em;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .input-field input, .input-field select {
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 12px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 1em;
+      transition: border-color 0.2s;
+    }
+
+    .input-field input:focus, .input-field select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .section-title {
+      font-size: 1.5em;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--border-color);
+      display: inline-block;
+      color: var(--text-main);
+    }
+
+    /* Commercial Proposal Table */
+    .table-container {
+      margin-bottom: 40px;
+      background: var(--card-bg);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      padding: 15px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+
+    th, td {
+      padding: 12px 10px;
+      text-align: right;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th:first-child, td:first-child {
+      text-align: left;
+    }
+
+    th {
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.8em;
+      letter-spacing: 1px;
+    }
+
+    td.item-name {
+      font-weight: 600;
+      font-size: 1.05em;
+      color: var(--text-main);
+    }
+
+    td.item-desc {
+      display: block;
+      font-size: 0.8em;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    tr:last-child th, tr:last-child td {
+      border-bottom: none;
+    }
+
+    .total-row td {
+      background: rgba(240, 165, 0, 0.03);
+      font-weight: 800;
+      font-size: 1.1em;
+      color: var(--primary);
+      border-top: 2px solid var(--primary) !important;
+    }
+
+    /* Bundle Card */
+    .bundle-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      margin-bottom: 40px;
+    }
+
+    .bundle-card {
+      background: linear-gradient(145deg, #1f1a14 0%, #110e0b 100%);
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      padding: 30px;
+      max-width: 800px;
+      width: 100%;
+      position: relative;
+    }
+
+    .bundle-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .bundle-header h2 {
+      font-size: 1.8em;
+      margin: 0 0 5px 0;
+      color: var(--primary);
+    }
+
+    .bundle-header p {
+      color: var(--text-muted);
+      font-size: 1em;
+      margin: 0;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+    }
+
+    .price-box {
+      background: rgba(0,0,0,0.5);
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      text-align: center;
+    }
+
+    .price-box h3 {
+      font-size: 0.9em;
+      color: var(--text-muted);
+      margin: 0 0 10px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .old-price {
+      text-decoration: line-through;
+      color: #777;
+      font-size: 1.1em;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .new-price {
+      font-size: 2.2em;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 0;
+      line-height: 1;
+    }
+
+    .new-price span {
+      font-size: 0.4em;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .savings {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8em;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    /* Contract Terms */
+    .terms-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 30px;
+      font-size: 0.95em;
+      color: #d4d4d4;
+    }
+
+    .terms-box h3 {
+      color: var(--primary);
+      margin-top: 30px;
+      margin-bottom: 10px;
+      font-size: 1.15em;
+      border-left: 3px solid var(--primary);
+      padding-left: 10px;
+    }
+
+    .terms-box h3:first-child {
+      margin-top: 0;
+    }
+
+    .terms-box p {
+      margin-bottom: 15px;
+      text-align: justify;
+    }
+
+    mark.highlight {
+      background-color: rgba(240, 165, 0, 0.15);
+      color: var(--primary);
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .highlight-success {
+      background-color: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    /* Live Preview Tokens */
+    .preview-token {
+      color: var(--primary);
+      font-weight: 700;
+      border-bottom: 1px dashed var(--primary);
+      padding: 0 2px;
+    }
+
+    /* Signatures layout */
+    .signatures-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .signatures-block {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sig-col {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .sig-title {
+      font-size: 1em;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 15px;
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+    }
+
+    .sig-details {
+      font-size: 0.9em;
+      color: var(--text-muted);
+      margin-bottom: 15px;
+      min-height: 120px;
+    }
+
+    .sig-details strong {
+      color: var(--text-main);
+    }
+
+    .signature-pad-wrapper {
+      background: #fff;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      position: relative;
+      margin-bottom: 10px;
+    }
+
+    canvas.pad {
+      width: 100%;
+      height: 180px;
+      display: block;
+      touch-action: none;
+    }
+
+    .signature-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      font-size: 0.9em;
+    }
+
+    .btn-clear {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+    }
+
+    .btn-clear:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      background: #e09900;
+    }
+
+    .global-actions {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .final-actions {
+      display: none;
+      margin-top: 30px;
+      text-align: center;
+      gap: 15px;
+      flex-direction: column;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 8px;
+      border: 2px solid var(--success);
+    }
+
+    .final-actions.visible {
+      display: flex;
+    }
+
+    /* Print/PDF Mode overrides */
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+      .container { max-width: 100%; padding: 0; }
+      .setup-panel, .signature-actions, .global-actions, .final-actions { display: none !important; }
+      .bundle-card { border-color: #000 !important; background: none !important; }
+      .header h1 span, .bundle-header h2, .total-row td, .terms-box h3, .sig-title { color: #000 !important; }
+      th, td, .price-box, .sig-col, .terms-box { border-color: #ccc !important; }
+      .terms-box { background: none; border-color: #ccc; color: #000; }
+      mark.highlight { background: none; color: #000; font-weight: bold; border-bottom: 1px dashed #000; }
+      .highlight-success { background: none; color: #000; font-weight: bold; border-bottom: 1px dashed #000; }
+      .preview-token { color: #000; border-bottom: none; }
+      canvas.pad { border: 1px solid #000; background: #fff !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- SETUP PANEL -->
+    <div class="setup-panel" id="config-panel">
+      <h2>Step 1: Configure Client & Agreement Data</h2>
+      <p style="font-size:0.9em; color:var(--text-muted); margin-bottom: 20px;">
+        Fill in the information below. All contract terms and placeholders will automatically update in real-time. Convenient to fill on an iPad, tablet, or desktop.
+      </p>
+      <div class="grid-fields">
+        <div class="input-field">
+          <label for="input-biz-legal">Business Legal Entity Name</label>
+          <input type="text" id="input-biz-legal" placeholder="e.g. Maya Restaurant LLC / Maya Inc.">
+        </div>
+        <div class="input-field">
+          <label for="input-biz-name">Client Commercial / Business Name</label>
+          <input type="text" id="input-biz-name" placeholder="e.g. Maya Cantina">
+        </div>
+        <div class="input-field">
+          <label for="input-biz-city">Client City & State</label>
+          <input type="text" id="input-biz-city" placeholder="e.g. Sacramento, California">
+        </div>
+        <div class="input-field">
+          <label for="input-biz-phone">Client Phone</label>
+          <input type="text" id="input-biz-phone" placeholder="e.g. +1 (916) 555-0199">
+        </div>
+        <div class="input-field">
+          <label for="input-biz-email">Client Email</label>
+          <input type="text" id="input-biz-email" placeholder="e.g. billing@mayacantina.com">
+        </div>
+        <div class="input-field">
+          <label for="input-rep-name">Legal Representative Name</label>
+          <input type="text" id="input-rep-name" placeholder="e.g. John Doe">
+        </div>
+        <div class="input-field">
+          <label for="input-rep-title">Representative Title</label>
+          <input type="text" id="input-rep-title" placeholder="e.g. General Manager / CEO" value="Authorized Representative">
+        </div>
+        <div class="input-field">
+          <label for="input-payment-method">Payment Method (Subscription)</label>
+          <input type="text" id="input-payment-method" placeholder="e.g. Credit Card on Stripe Billing">
+        </div>
+      </div>
+    </div>
+
+    <!-- DOCUMENT CONTENT TO EXPORT -->
+    <div id="contract-content">
+      
+      <div class="header">
+        <h1>Digital Services Agreement <span>Conect-R</span></h1>
+        <p>SOFTWARE LICENSE & TECHNOLOGY PROVISION AGREEMENT</p>
+      </div>
+
+      <!-- Section 1: Economic Proposal -->
+      <h2 class="section-title">1. Portal Specifications & Investment</h2>
+      
+      <p style="font-size: 0.95em; color: var(--text-muted); margin-bottom: 20px;">
+        This Agreement governs the access and use of Conect-R's Digital Ordering Portal for the Client 
+        <span class="preview-token token-biz-name">[Business Name]</span> (under the legal entity 
+        <span class="preview-token token-biz-legal">[Legal Entity Name]</span>, based in 
+        <span class="preview-token token-biz-city">[City]</span>). Below are the integrated modules and the investment structure.
+      </p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Included Service / Module</th>
+              <th>Initial Payment (Setup)</th>
+              <th>Monthly Subscription (SaaS)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="item-name">
+                Interactive Digital Menu
+                <span class="item-desc">Interactive web menu accessible via QR code or dedicated custom web link.</span>
+              </td>
+              <td>Included</td>
+              <td>Included</td>
+            </tr>
+            <tr>
+              <td class="item-name">
+                Real-Time Kitchen Dashboard
+                <span class="item-desc">Interactive screen for kitchen staff to manage, filter, and track order history.</span>
+              </td>
+              <td>Included</td>
+              <td>Included</td>
+            </tr>
+            <tr>
+              <td class="item-name">
+                Artificial Intelligence Chatbot
+                <span class="item-desc">Intelligent AI assistant deployed to automate customer service and support.</span>
+              </td>
+              <td>Included</td>
+              <td>Included</td>
+            </tr>
+            <tr>
+              <td class="item-name">
+                Online Payment Processing
+                <span class="item-desc">Secure, direct credit and debit card processing powered by Stripe integration.</span>
+              </td>
+              <td>Included</td>
+              <td>Included</td>
+            </tr>
+            <tr>
+              <td class="item-name">
+                Specialized Technical Support
+                <span class="item-desc">Technical support response time guaranteed within 24 business hours.</span>
+              </td>
+              <td>Included</td>
+              <td>Included</td>
+            </tr>
+            <tr class="total-row">
+              <td>Total Ecosystem (A La Carte value)</td>
+              <td>$1,800.00 USD</td>
+              <td>$100.00 USD</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="bundle-wrapper">
+        <div class="bundle-card">
+          <div class="bundle-header">
+            <h2>Portal Investment Structure (12-Month Commitment)</h2>
+            <p>Digital Ordering Portal fully installed, with waived startup fees and initial trial period.</p>
+          </div>
+          
+          <div class="pricing-grid">
+            <!-- Setup Bundle -->
+            <div class="price-box">
+              <h3>Implementation Fee (Setup)</h3>
+              <span class="old-price">$1,800.00 USD</span>
+              <div class="new-price">$0.00 <span style="font-size:0.45em; font-weight: 600; color: var(--success);">USD</span></div>
+              <div class="savings">100% Waived under 12-Month Term</div>
+            </div>
+            
+            <!-- Monthly SaaS -->
+            <div class="price-box">
+              <h3>Monthly Operating Subscription</h3>
+              <span class="old-price">$100.00 USD</span>
+              <div class="new-price">$100.00 <span>USD / month</span></div>
+              <div class="savings">First 2 months free ($0.00)</div>
+            </div>
+          </div>
+
+          <p style="text-align: center; margin-top: 20px; font-size: 0.85em; color: var(--text-muted); line-height: 1.4;">
+            * <strong>Commercial Benefit:</strong> 100% waiver of initial configuration (Setup Fee) and first 2 months of SaaS at no charge, contingent on fulfilling the 12-month commitment. The platform charges a 5% markup to the end consumer.
+          </p>
+        </div>
+      </div>
+
+      <!-- Section 2: Terms and Conditions -->
+      <h2 class="section-title">2. Legal Terms & Conditions</h2>
+      
+      <div class="terms-box">
+        
+        <h3>1. Contracting Parties</h3>
+        <p>
+          This Services Agreement is entered into by and between 
+          <strong>CONECT-R LLC</strong> (hereinafter, "Conect-R" or the "Provider"), represented by its CEO and co-founder, 
+          <strong>Ricardo Orozco</strong> (along with co-founders Armando Martinez and Edgardo Maldonado), 
+          and the business entity commercially identified as 
+          <strong class="preview-token token-biz-name">[Business Name]</strong>, legally registered as 
+          <strong class="preview-token token-biz-legal">[Legal Entity Name]</strong>, located in the city of 
+          <strong class="preview-token token-biz-city">[City]</strong>, represented by its authorized representative, 
+          <strong class="preview-token token-rep-name">[Representative Name]</strong> (hereinafter, the "Client").
+        </p>
+
+        <h3>2. Description of Service & License to Use</h3>
+        <p>
+          Conect-R grants the Client a temporary, non-exclusive, non-transferable, and revocable license to access and use the software of the Digital Ordering Portal. This portal consists of the interactive digital menu, the kitchen order management dashboard, the AI customer service chatbot, payment integrations, and technical support. 
+          <mark class="highlight">Conect-R retains sole and exclusive ownership of all intellectual property, source code, designs, hosting infrastructure, and domains.</mark> This license is granted strictly for the duration of this agreement, contingent upon the Client keeping all payments and obligations current.
+        </p>
+
+        <h3>3. Markup Model (Commission) & Payment Processing</h3>
+        <p>
+          All client payments on the portal are processed via Stripe Connect under Conect-R's platform setup.
+          <strong>3.1 Digital Service Markup (5%):</strong> Menu prices provided by the Client will be displayed to the end consumer with a <mark class="highlight">five percent (5%) markup</mark>. This markup represents Conect-R's commission for transactions and platform usage.
+          <strong>3.2 Full Menu Price for Client:</strong> The Client will receive 100% of their base physical menu pricing without deductions. Conect-R LLC absorbs standard transaction processing fees charged by Stripe on successful transactions.
+          <strong>3.3 Transparency:</strong> The portal will display a clear notice informing consumers that online menu prices may vary from physical in-store prices.
+        </p>
+
+        <h3>4. Setup Waiver & Monthly Subscription</h3>
+        <p>
+          <strong>4.1 Setup Fee Waiver:</strong> Conect-R waives the one-time implementation and setup fee (valued at $1,800.00 USD) in full, setting this charge to <span class="highlight-success">$0.00 USD</span>.
+          <strong>4.2 Monthly Subscription:</strong> The monthly license fee is set at <mark class="highlight">$100.00 USD</mark>, starting in the third month of operation. The first <mark class="highlight">two (2) months of service are free of charge</mark> ($0.00 USD).
+          <strong>4.3 Billing and Auto-Pay:</strong> The subscription will be billed automatically on a recurring basis via the payment method designated as <strong class="preview-token token-payment-method">[Payment Method]</strong>. Invoices are issued in the first 5 days of each month and are due within 10 days. Late payments exceeding 15 days will result in automatic service suspension.
+        </p>
+
+        <h3>5. Term & Early Termination Penalty</h3>
+        <p>
+          This Agreement is bound by an initial mandatory term of <mark class="highlight">twelve (12) months</mark> starting on the date of signature. It will renew automatically for successive annual terms. Either party may prevent renewal by submitting a written notice of non-renewal at least thirty (30) days prior to the expiration of the current term.
+          <mark class="highlight">If the Client cancels the service early without cause before the end of the mandatory 12-month term, the Client shall pay Conect-R an early termination fee equal to the remaining monthly fees of the initial term, or return the full setup fee discount ($1,800.00 USD).</mark>
+        </p>
+
+        <h3>6. Legal Responsibility for Food & Taxes</h3>
+        <p>
+          The Client acknowledges and agrees that:
+          <strong>6.1 Food Quality and Safety:</strong> The Client is solely and legally responsible for the preparation, quality, packaging, allergen disclosure, descriptions, and delivery of all food items. The Client shall defend, indemnify, and hold harmless Conect-R against any claims, losses, or lawsuits filed by end consumers.
+          <strong>6.2 Tax Compliance:</strong> The Client is solely responsible for calculating, collecting, reporting, and remitting all applicable local sales taxes or VAT. Conect-R acts strictly as a software intermediary and does not assume any tax liability.
+        </p>
+
+        <h3>7. Responsibility for Stripe Disputes & Refunds (Chargebacks)</h3>
+        <p>
+          While Conect-R covers successful processing fees, the Client assumes full responsibility for transactions that result in credit card disputes or chargebacks.
+          <mark class="highlight">The Client is 100% financially liable for any chargeback amounts, customer fraud, or refunds, as well as the administrative dispute fee charged by Stripe ($15.00 USD per dispute).</mark> Conect-R is authorized to deduct these chargeback balances and administrative fees from the Client's subsequent payouts and deposits.
+        </p>
+
+        <h3>8. Brand Use & Customer Data Privacy (CCPA)</h3>
+        <p>
+          <strong>8.1 Trademark License:</strong> The Client grants Conect-R a non-exclusive license to use its logo, commercial name, and images for portfolio and marketing purposes. The Client may request to review specific materials with 48 hours notice.
+          <strong>8.2 Data Controller vs. Processor:</strong> The Client acts as the Data Controller, and Conect-R acts as the Service Provider (Data Processor) under the California Consumer Privacy Act (CCPA). Conect-R may utilize anonymized, aggregated database metrics to improve platform services, optimize AI chatbots, and run anti-fraud checks. The Client may request a complete data export with 5 business days notice.
+        </p>
+
+        <h3>9. Exclusions & Limitation of Liability</h3>
+        <p>
+          Conect-R is not liable for system downtime, data loss, or service interruptions caused by third-party infrastructure failures (such as Stripe processing, Vercel/Supabase servers, or local ISP outages). The maximum aggregate liability of Conect-R for any claims, damages, or breaches arising under this contract <mark class="highlight">shall not exceed three (3) months of subscription fees ($300.00 USD)</mark>.
+        </p>
+
+        <h3>10. Governing Law, Venue & Legal Fees</h3>
+        <p>
+          This Agreement is governed by the laws of the State of California, United States. Any disputes shall first be submitted to mediation within thirty (30) days. If unresolved, the dispute shall be settled through binding arbitration in Sacramento, California. In any legal action or arbitration, the prevailing party shall be entitled to recover from the other party all reasonable legal expenses, including **attorney's fees and arbitration costs**.
+        </p>
+
+      </div>
+
+      <!-- Section 3: Signatures and Formalization -->
+      <h2 class="section-title">3. Formalization & Signatures</h2>
+      <p style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 30px;">
+        By signing digitally below, both parties acknowledge they have read, understood, and agreed to be legally bound by all terms of this Agreement.
+      </p>
+
+      <div class="signatures-block">
+        
+        <!-- Client Column -->
+        <div class="sig-col">
+          <div class="sig-title">FOR THE CLIENT</div>
+          <div class="sig-details">
+            <div>Company: <strong class="preview-token token-biz-legal">[Legal Entity Name]</strong></div>
+            <div>Commercial: <strong class="preview-token token-biz-name">[Business Name]</strong></div>
+            <div>City: <strong class="preview-token token-biz-city">[City]</strong></div>
+            <div>Phone: <strong class="preview-token token-biz-phone">[Phone]</strong></div>
+            <div>Email: <strong class="preview-token token-biz-email">[Email]</strong></div>
+            <div>Representative: <strong class="preview-token token-rep-name">[Representative Name]</strong></div>
+            <div>Title: <strong class="preview-token token-rep-title">[Cargo]</strong></div>
+            <div>Date: <strong id="val-client-date">-</strong></div>
+          </div>
+          
+          <div class="signature-pad-wrapper">
+            <canvas id="client-signature-pad" class="pad"></canvas>
+          </div>
+          <div class="signature-actions" id="sig-actions-buttons-client">
+            <button class="btn btn-clear" id="clear-btn-client">Clear</button>
+            <button class="btn btn-primary" id="sign-btn-client">Done</button>
+          </div>
+        </div>
+
+        <!-- Provider Column -->
+        <div class="sig-col">
+          <div class="sig-title">FOR CONECT-R LLC</div>
+          <div class="sig-details">
+            <div>Company: <strong>CONECT-R LLC</strong></div>
+            <div>City: <strong>Sacramento, California</strong></div>
+            <div>Representative: <strong>Ricardo Orozco</strong></div>
+            <div>Title: <strong>CEO & Co-Founder</strong></div>
+            <div>Co-Founders: <strong>Armando Martinez & Edgardo M.</strong></div>
+            <div>Email: <strong>contact@conect-r.com</strong></div>
+            <div>Date: <strong id="val-provider-date">-</strong></div>
+          </div>
+          
+          <div class="signature-pad-wrapper">
+            <canvas id="provider-signature-pad" class="pad"></canvas>
+          </div>
+          <div class="signature-actions" id="sig-actions-buttons-provider">
+            <button class="btn btn-clear" id="clear-btn-provider">Clear</button>
+            <button class="btn btn-primary" id="sign-btn-provider">Done</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- GLOBAL ACTIONS -->
+    <div class="global-actions" id="global-actions-bar">
+      <p style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 15px;">
+        Once the configuration data is complete and both signatures are stamped, click below to consolidate and download the PDF.
+      </p>
+      <button class="btn btn-primary" id="consolidate-btn" style="padding: 12px 30px;">Consolidate Agreement</button>
+    </div>
+
+    <div class="final-actions" id="final-actions-panel">
+      <h3 style="margin:0; color: var(--success); font-size: 1.4em;">Agreement Successfully Consolidated!</h3>
+      <p style="color: var(--text-muted); font-size: 0.95em; margin: 5px 0 20px 0;">
+        All form inputs and both signatures have been permanently locked. You can now export the official PDF.
+      </p>
+      <div style="display: flex; gap: 15px; justify-content: center;">
+        <button class="btn btn-primary" id="download-pdf-btn" style="padding: 12px 30px;">Download Official PDF</button>
+        <button class="btn btn-clear" id="reset-btn" style="padding: 12px 30px;">Edit Data / Signatures</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Configure automatic dates on launch
+    const today = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    document.getElementById('val-client-date').textContent = today;
+    document.getElementById('val-provider-date').textContent = today;
+
+    // Bind inputs to placeholders
+    const inputs = {
+      bizLegal: { input: document.getElementById('input-biz-legal'), tokens: document.querySelectorAll('.token-biz-legal'), placeholder: '[Legal Entity Name]' },
+      bizName: { input: document.getElementById('input-biz-name'), tokens: document.querySelectorAll('.token-biz-name'), placeholder: '[Business Name]' },
+      bizCity: { input: document.getElementById('input-biz-city'), tokens: document.querySelectorAll('.token-biz-city'), placeholder: '[City]' },
+      bizPhone: { input: document.getElementById('input-biz-phone'), tokens: document.querySelectorAll('.token-biz-phone'), placeholder: '[Phone]' },
+      bizEmail: { input: document.getElementById('input-biz-email'), tokens: document.querySelectorAll('.token-biz-email'), placeholder: '[Email]' },
+      repName: { input: document.getElementById('input-rep-name'), tokens: document.querySelectorAll('.token-rep-name'), placeholder: '[Representative Name]' },
+      repTitle: { input: document.getElementById('input-rep-title'), tokens: document.querySelectorAll('.token-rep-title'), placeholder: '[Cargo]' },
+      paymentMethod: { input: document.getElementById('input-payment-method'), tokens: document.querySelectorAll('.token-payment-method'), placeholder: '[Payment Method]' }
+    };
+
+    function updateTokens() {
+      for (const key in inputs) {
+        const value = inputs[key].input.value.trim();
+        inputs[key].tokens.forEach(token => {
+          token.textContent = value || inputs[key].placeholder;
+        });
+      }
+    }
+
+    for (const key in inputs) {
+      inputs[key].input.addEventListener('input', updateTokens);
+    }
+    updateTokens();
+
+    // Initialize Pads
+    const canvasClient = document.getElementById('client-signature-pad');
+    const canvasProvider = document.getElementById('provider-signature-pad');
+    
+    function resizeCanvas(canvas) {
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      canvas.width = canvas.offsetWidth * ratio;
+      canvas.height = canvas.offsetHeight * ratio;
+      canvas.getContext("2d").scale(ratio, ratio);
+    }
+
+    function resizeAll() {
+      resizeCanvas(canvasClient);
+      resizeCanvas(canvasProvider);
+    }
+
+    resizeAll();
+    window.addEventListener('resize', resizeAll);
+
+    const padClient = new SignaturePad(canvasClient, {
+      penColor: "rgb(0, 0, 128)",
+      backgroundColor: "rgb(255, 255, 255)"
+    });
+
+    const padProvider = new SignaturePad(canvasProvider, {
+      penColor: "rgb(0, 0, 128)",
+      backgroundColor: "rgb(255, 255, 255)"
+    });
+
+    // Clear and sign button events
+    document.getElementById('clear-btn-client').addEventListener('click', () => padClient.clear());
+    document.getElementById('clear-btn-provider').addEventListener('click', () => padProvider.clear());
+
+    const signBtnClient = document.getElementById('sign-btn-client');
+    const signBtnProvider = document.getElementById('sign-btn-provider');
+
+    signBtnClient.addEventListener('click', () => {
+      if(padClient.isEmpty()) {
+        alert("Please sign the document for the client.");
+        return;
+      }
+      padClient.off();
+      signBtnClient.style.background = "#10b981";
+      signBtnClient.style.color = "#fff";
+      signBtnClient.textContent = "Signed ✓";
+    });
+
+    signBtnProvider.addEventListener('click', () => {
+      if(padProvider.isEmpty()) {
+        alert("Please sign the document for Ricardo Orozco (Conect-R).");
+        return;
+      }
+      padProvider.off();
+      signBtnProvider.style.background = "#10b981";
+      signBtnProvider.style.color = "#fff";
+      signBtnProvider.textContent = "Signed ✓";
+    });
+
+    const consolidateBtn = document.getElementById('consolidate-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const downloadPdfBtn = document.getElementById('download-pdf-btn');
+    const configPanel = document.getElementById('config-panel');
+    const finalActionsPanel = document.getElementById('final-actions-panel');
+    const globalActionsBar = document.getElementById('global-actions-bar');
+    const sigClientButtons = document.getElementById('sig-actions-buttons-client');
+    const sigProviderButtons = document.getElementById('sig-actions-buttons-provider');
+
+    consolidateBtn.addEventListener('click', () => {
+      const legal = inputs.bizLegal.input.value.trim();
+      const name = inputs.bizName.input.value.trim();
+      const rep = inputs.repName.input.value.trim();
+
+      if (!legal || !name || !rep) {
+        alert("Please fill in Business Legal Entity, Business Name, and Representative Name in the configuration panel.");
+        return;
+      }
+
+      if (padClient.isEmpty() || padProvider.isEmpty()) {
+        alert("Both parties must sign before consolidating the agreement.");
+        return;
+      }
+
+      // Lock everything
+      padClient.off();
+      padProvider.off();
+      configPanel.style.display = 'none';
+      sigClientButtons.style.display = 'none';
+      sigProviderButtons.style.display = 'none';
+      globalActionsBar.style.display = 'none';
+      
+      finalActionsPanel.classList.add('visible');
+      finalActionsPanel.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    resetBtn.addEventListener('click', () => {
+      padClient.on();
+      padProvider.on();
+      configPanel.style.display = 'block';
+      sigClientButtons.style.display = 'flex';
+      sigProviderButtons.style.display = 'flex';
+      globalActionsBar.style.display = 'block';
+      finalActionsPanel.classList.remove('visible');
+
+      // Reset sign buttons
+      signBtnClient.style.background = "var(--primary)";
+      signBtnClient.style.color = "#000";
+      signBtnClient.textContent = "Done";
+      signBtnProvider.style.background = "var(--primary)";
+      signBtnProvider.style.color = "#000";
+      signBtnProvider.textContent = "Done";
+    });
+
+    downloadPdfBtn.addEventListener('click', () => {
+      const element = document.getElementById('contract-content');
+      const opt = {
+        margin:       12,
+        filename:     `Agreement_Portal_ConectR_${inputs.bizName.input.value.replace(/\s+/g, '_') || 'Client'}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true, logging: false },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save();
+    });
+  </script>
+</body>
+</html>

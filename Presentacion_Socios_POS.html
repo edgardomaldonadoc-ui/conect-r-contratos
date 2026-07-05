@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Propuesta Comercial y Financiera - Conect-R POS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #050505;
+      --panel-bg: rgba(20, 20, 20, 0.75);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --primary: #f0a500;
+      --primary-glow: rgba(240, 165, 0, 0.15);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --success: #10b981;
+      --success-glow: rgba(16, 185, 129, 0.15);
+      --danger: #ef4444;
+      --accent-blue: #3b82f6;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Ambient glow elements */
+    .glow-orange {
+      position: absolute;
+      top: -10%;
+      left: -10%;
+      width: 40%;
+      height: 40%;
+      background: radial-gradient(circle, rgba(240, 165, 0, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+      filter: blur(100px);
+    }
+    .glow-blue {
+      position: absolute;
+      bottom: -10%;
+      right: -10%;
+      width: 40%;
+      height: 40%;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+      filter: blur(100px);
+    }
+
+    /* Presentation Container */
+    .deck-container {
+      width: 95%;
+      max-width: 1050px;
+      height: 650px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Header Nav */
+    .deck-header {
+      padding: 20px 30px;
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+    }
+
+    .brand span {
+      color: var(--primary);
+    }
+
+    .slide-indicator {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+    }
+
+    /* Slides Content */
+    .slides-wrapper {
+      flex: 1;
+      position: relative;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 30px 45px;
+      opacity: 0;
+      transform: scale(0.98);
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    /* Typography */
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 36px;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+    }
+
+    h1 span {
+      color: var(--primary);
+    }
+
+    .subtitle {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      margin-bottom: 15px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    /* Cards */
+    .card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(240, 165, 0, 0.3);
+    }
+
+    .card-title {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 8px;
+      color: var(--primary);
+    }
+
+    .card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .card ul {
+      padding-left: 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      background: #f5b82e;
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    /* Navigation Panel */
+    .deck-footer {
+      padding: 15px 30px;
+      border-top: 1px solid var(--glass-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: var(--primary);
+      color: #000;
+      border-color: var(--primary);
+    }
+
+    .dots-container {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .dot.active {
+      background: var(--primary);
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    /* Badges & Alerts */
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+
+    .badge-success {
+      background: var(--success-glow);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .badge-blue {
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .badge-orange {
+      background: rgba(240, 165, 0, 0.15);
+      color: var(--primary);
+      border: 1px solid rgba(240, 165, 0, 0.3);
+    }
+
+    /* Calculator Elements */
+    .calc-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .calc-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .calc-row label {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .calc-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .calc-input-wrapper span {
+      position: absolute;
+      left: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .calc-input {
+      width: 100px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      padding: 5px 5px 5px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      text-align: right;
+      font-weight: bold;
+    }
+
+    .calc-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .result-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .result-table th, .result-table td {
+      padding: 6px 8px;
+      text-align: right;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .result-table th {
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 9px;
+    }
+
+    .result-table td.label-cell {
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .highlight-row {
+      background: rgba(240, 165, 0, 0.08);
+      font-weight: bold;
+    }
+
+    .highlight-row td {
+      color: var(--primary);
+      border-top: 1px solid var(--primary);
+      border-bottom: 1px solid var(--primary);
+    }
+
+    /* Ticket styling */
+    .receipt-box {
+      font-family: 'Courier New', Courier, monospace;
+      background: #fff;
+      color: #000;
+      padding: 15px;
+      border: 1px dashed #ccc;
+      border-radius: 4px;
+      font-size: 11px;
+      max-height: 280px;
+      overflow-y: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .receipt-header {
+      text-align: center;
+      border-bottom: 1px dashed #000;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+    }
+
+    /* Custom layout modifications for Slide 4 */
+    .ticket-flex {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    /* Keyboard indicator info */
+    .keyboard-hint {
+      position: absolute;
+      bottom: 20px;
+      font-size: 11px;
+      color: var(--text-muted);
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Glow Backgrounds -->
+  <div class="glow-orange"></div>
+  <div class="glow-blue"></div>
+
+  <!-- Deck Wrapper -->
+  <div class="deck-container">
+    
+    <!-- Top Header -->
+    <header class="deck-header">
+      <div class="brand">
+        Conect-R<span>.POS</span>
+      </div>
+      <div class="slide-indicator" id="slide-num">1 / 7</div>
+    </header>
+
+    <!-- Slides -->
+    <div class="slides-wrapper">
+      
+      <!-- Slide 1: Welcome -->
+      <section class="slide active" id="slide-1">
+        <div style="max-width: 700px; margin: 0 auto; text-align: center;">
+          <span class="badge badge-success">Nueva Línea de Negocio</span>
+          <h1>Estrategia de Lanzamiento y Monetización <span>POS</span></h1>
+          <p class="subtitle">Análisis del modelo de Toast, ruta crítica para entrar al negocio adquirente y simulación de rentabilidad en el ecosistema Conect-R.</p>
+          <div style="margin-top: 30px;">
+            <button class="btn btn-primary" onclick="nextSlide()">Iniciar Presentación</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 2: El Modelo de Toast (Sin Comparativas) -->
+      <section class="slide" id="slide-2">
+        <div class="grid-2">
+          <div>
+            <span class="badge badge-orange">Caso de Estudio: Toast POS</span>
+            <h2>¿Cómo hace negocio Toast?</h2>
+            <p class="subtitle" style="margin-bottom: 12px;">Toast funciona bajo un modelo PayFac (Payment Facilitator) donde el software y el hardware sirven para monetizar el flujo transaccional diario.</p>
+            <ul style="color: var(--text-muted); font-size: 12.5px; line-height: 1.7; padding-left: 20px;">
+              <li><strong>Renta de Software (SaaS):</strong> Cobran entre **$79 y $165 USD/mes** por terminal básica. Módulos extra (Online Ordering, Reservas, KDS) cuestan **$40 a $99 USD/mes** adicionales por módulo.</li>
+              <li><strong>Comisión Transaccional (Tarjeta Presente):</strong> Tasa estándar de **2.49% + 15¢** por transacción física.</li>
+              <li><strong>Comisión Online/Manual (Card Not Present):</strong> Tasa estándar de **3.50% + 15¢**.</li>
+            </ul>
+          </div>
+          <div class="card" style="border-left: 4px solid var(--primary);">
+            <div class="card-title" style="margin-bottom: 8px;">La clave del negocio: El Procesamiento</div>
+            <p style="margin-bottom: 10px; font-size: 12px;">Para procesar tarjetas, Toast asume un costo mayorista de adquirencia (Interchange) de ~1.70% y se queda con la diferencia. Por cada millón de dólares procesados por sus clientes, Toast obtiene aproximadamente **$8,000 USD de margen puro**.</p>
+            <p style="font-size: 12px;"><strong>Efecto Financiamiento:</strong> Ofrecen el hardware a "$0 inicial" a cambio de contratos obligatorios de 2 a 3 años y comisiones más altas (2.99% + 15¢), recuperando el costo del hardware con creces.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 3: ¿Qué es el Spread Neto? (NUEVO) -->
+      <section class="slide" id="slide-3">
+        <div class="grid-2">
+          <div>
+            <span class="badge badge-blue">Concepto Financiero Clave</span>
+            <h2>¿Qué es el "Spread Neto"?</h2>
+            <p class="subtitle" style="margin-bottom: 15px;">Es la **ganancia limpia y libre de costos** que se queda Conect-R por cada transacción cobrada en la terminal física.</p>
+            <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 15px;">
+              Cuando una tarjeta se desliza, se cobra una tarifa bruta (ej. 2.19% o 3.99%). De ahí, las marcas de tarjetas (Visa/Mastercard), los bancos emisores y la pasarela de pago retienen el **Costo Mayorista Adquirente** (aprox. **1.80% + 5¢**).
+            </p>
+            <div class="card" style="padding: 12px; background: rgba(59, 130, 246, 0.05); border-color: rgba(59, 130, 246, 0.2);">
+              <div style="font-size: 11px; text-transform: uppercase; color: var(--accent-blue); font-weight: bold; margin-bottom: 5px;">La Fórmula:</div>
+              <div style="font-family: monospace; font-size: 13px; color: var(--text-main); font-weight: bold;">Spread Neto = Comisión Cobrada - Costo Mayorista</div>
+            </div>
+          </div>
+          <div>
+            <div class="card" style="margin-bottom: 12px;">
+              <div class="card-title" style="color: var(--success);">Ejemplo con una cuenta de $100 USD:</div>
+              <ul style="list-style: none; padding-left: 0; font-size: 12px; display: flex; flex-direction: column; gap: 8px;">
+                <li>
+                  <strong>Plan A (Tasa de 2.19% + 10¢):</strong>
+                  <div style="color: var(--text-muted); margin-top: 2px;">
+                    Se cobran **$2.29 USD** de comisión bruta.<br>
+                    El costo de redes es de **$1.85 USD**.<br>
+                    <span style="color: var(--primary); font-weight: bold;">Spread Neto Conect-R: $0.44 USD</span>
+                  </div>
+                </li>
+                <li style="border-top: 1px solid var(--glass-border); padding-top: 8px; margin-top: 4px;">
+                  <strong>Plan B (Cash Discounting de 3.99%):</strong>
+                  <div style="color: var(--text-muted); margin-top: 2px;">
+                    El comensal paga **$3.99 USD** de recargo.<br>
+                    El costo de redes es de **$1.85 USD**.<br>
+                    <span style="color: var(--primary); font-weight: bold;">Spread Neto Conect-R: $2.14 USD</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 4: Pasos para Entrar al Mundo Transaccional (Ruta Crítica) -->
+      <section class="slide" id="slide-4">
+        <h2>Ruta Crítica Post-POS para Cobrar Comisiones</h2>
+        <p class="subtitle" style="margin-bottom: 15px;">Una vez que la aplicación de POS esté desarrollada técnicamente, estos son los pasos para comenzar a facturar comisiones por transacciones:</p>
+        <div class="grid-2" style="align-items: stretch; gap: 20px;">
+          <div class="card">
+            <div class="card-title">1. Integración de Pasarela Platform (PayFac)</div>
+            <p style="font-size: 12px; margin-bottom: 10px;">Registrar a Conect-R como plataforma partner de **Stripe Connect** (o Tilled/Finix). Esto nos da APIs para:</p>
+            <ul style="font-size: 11.5px; padding-left: 15px;">
+              <li>Crear subcuentas bancarias automáticas para los restaurantes (onboarding digital instantáneo).</li>
+              <li>Dividir cada cobro (*split payment*) y desviar nuestra comisión (*Application Fee*) a Conect-R en tiempo real.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">2. Certificación de Lectores Físicos</div>
+            <p style="font-size: 12px; margin-bottom: 10px;">Adquirir y emparejar lectores de tarjetas físicos homologados por el procesador (ej. Stripe Reader S700 con pantalla táctil, BBPOS Chipper por Bluetooth).</p>
+            <ul style="font-size: 11.5px; padding-left: 15px;">
+              <li>Configurar la comunicación local por red Wi-Fi o Bluetooth entre el POS y la terminal.</li>
+            </ul>
+          </div>
+          <div class="card" style="grid-column: span 2;">
+            <div class="grid-2" style="gap: 15px; align-items: flex-start;">
+              <div>
+                <div class="card-title">3. Programar la Lógica de Cobro Dinámico</div>
+                <p style="font-size: 11.5px;">Desarrollar el script de cálculo dinámico para el descuento en efectivo en el checkout. El sistema debe calcular el total con recargo (ej. 3.99% para tarjeta) y restarlo automáticamente si se elige el botón 'Efectivo'.</p>
+              </div>
+              <div>
+                <div class="card-title">4. Compliance y Material para Punto de Venta</div>
+                <p style="font-size: 11.5px;">Para cumplir las reglas de Visa y Mastercard y evitar penalizaciones de surcharging, debemos proveer a cada restaurante con un letrero físico de acrílico obligatorio que anuncie las dos tarifas.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 5: Competir y Ganar a Micro-Escala -->
+      <section class="slide" id="slide-5">
+        <div class="grid-2">
+          <div>
+            <span class="badge badge-success">Ventaja Competitiva Local</span>
+            <h2>Cómo Ganar a Micro-Escala</h2>
+            <p class="subtitle" style="margin-bottom: 15px;">Toast tiene el capital, pero su tamaño lo hace lento y rígido. Nuestra fuerza local radica en atacar sus mayores debilidades:</p>
+            <ul style="color: var(--text-muted); font-size: 12.5px; line-height: 1.8; padding-left: 20px;">
+              <li><strong>Flexibilidad sin Plazos Forzosos:</strong> Toast amarra a los clientes con penalizaciones severas de salida. Conect-R ofrecerá contratos mensuales libres.</li>
+              <li><strong>Soporte Personalizado ("Guante Blanco"):</strong> El soporte técnico de Toast es automatizado y lento. Ofreceremos soporte local directo, ganando recomendación boca a boca.</li>
+              <li><strong>Ecosistema Premium Todo en Uno:</strong> En lugar de cobrar $50/mes por cada módulo secundario, Conect-R POS integra Stands NFC, TV Boards y Web de fábrica en una tarifa clara.</li>
+            </ul>
+          </div>
+          <div class="card" style="border-left: 4px solid var(--accent-blue);">
+            <div class="card-title" style="color: var(--text-main); font-size: 16px;">La Oferta Disruptiva: Cash Discounting</div>
+            <p style="margin-bottom: 10px; font-size: 12.5px;">Los representantes de ventas tradicionales de Toast rara vez configuran activamente el *Cash Discounting* (trasladar el 3.99% al tarjetahabiente) porque prefieren cobrar su comisión estándar del comercio.</p>
+            <p style="font-size: 12.5px;">Ofrecer esta opción de entrada convencerá a los dueños de negocios locales de inmediato: <strong>"Cancela Toast y elimina tu factura de procesamiento al 0% con Conect-R"</strong>.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 6: Simulador Financiero y Retorno de Inversión (Calculadora) -->
+      <section class="slide" id="slide-6">
+        <div class="grid-2" style="grid-template-columns: 42% 58%;">
+          <div>
+            <span class="badge badge-blue">Matemática Financiera</span>
+            <h2>Costo de Equipos vs. Ganancia</h2>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px; line-height: 1.4;">Simulación basada en la compra de un **kit de hardware inicial por terminal** (iPad, stand premium, lector Stripe S700, impresora y cajón) con un costo total estimado de **$1,050 USD**.</p>
+            
+            <div class="calc-box">
+              <div class="calc-row">
+                <label for="calc-volume">Volumen Mensual ($)</label>
+                <div class="calc-input-wrapper">
+                  <span>$</span>
+                  <input type="number" id="calc-volume" class="calc-input" value="30000" oninput="calculateStats()">
+                </div>
+              </div>
+              <div class="calc-row">
+                <label for="calc-ticket">Ticket Promedio ($)</label>
+                <div class="calc-input-wrapper">
+                  <span>$</span>
+                  <input type="number" id="calc-ticket" class="calc-input" value="30" oninput="calculateStats()">
+                </div>
+              </div>
+              <div class="calc-row">
+                <label for="calc-setup-fee">Cobro Inicial (Setup)</label>
+                <div class="calc-input-wrapper">
+                  <span>$</span>
+                  <input type="number" id="calc-setup-fee" class="calc-input" value="600" oninput="calculateStats()">
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <div class="card" style="padding: 12px;">
+              <table class="result-table">
+                <thead>
+                  <tr>
+                    <th>Desglose del Retorno</th>
+                    <th>Plan A (SaaS $849)</th>
+                    <th>Plan B (SaaS $99)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="label-cell">Costo Mayorista Adquirencia</td>
+                    <td id="res-cost-a">-</td>
+                    <td id="res-cost-b">-</td>
+                  </tr>
+                  <tr>
+                    <td class="label-cell">Spread Neto Conect-R</td>
+                    <td id="res-spread-a" style="color: var(--success);">-</td>
+                    <td id="res-spread-b" style="color: var(--success);">-</td>
+                  </tr>
+                  <tr>
+                    <td class="label-cell">Ganancia Recurrente Total</td>
+                    <td id="res-total-a" style="font-weight: bold;">-</td>
+                    <td id="res-total-b" style="font-weight: bold;">-</td>
+                  </tr>
+                  <tr style="background: rgba(255,255,255,0.02)">
+                    <td class="label-cell">Costo de Hardware por Terminal</td>
+                    <td>$1,050.00</td>
+                    <td>$1,050.00</td>
+                  </tr>
+                  <tr style="background: rgba(255,255,255,0.02)">
+                    <td class="label-cell">Inversión Neta (Costo - Setup)</td>
+                    <td id="res-net-inv-a">-</td>
+                    <td id="res-net-inv-b">-</td>
+                  </tr>
+                  <tr class="highlight-row">
+                    <td class="label-cell">RETORNO DE INVERSIÓN (Payback)</td>
+                    <td id="res-payback-a">-</td>
+                    <td id="res-payback-b">-</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div style="margin-top: 12px; text-align: center; font-size: 11px; color: var(--text-muted); line-height: 1.3;">
+                *El **Payback** indica los meses necesarios para recuperar la inversión en hardware subsidiado. Plan B recupera la inversión principalmente de las transacciones.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 7: Proyecciones Acumuladas -->
+      <section class="slide" id="slide-7">
+        <span class="badge badge-success">Proyecciones de Escala</span>
+        <h2>Ingresos Acumulados de Conect-R</h2>
+        <p class="subtitle" style="margin-bottom: 20px;">Estimación de la facturación mensual recurrente para Conect-R conforme se suman los primeros clientes promedio ($30k/mes volumen):</p>
+        <div class="grid-3" style="margin-bottom: 20px;">
+          <div class="card" style="text-align: center; border-top: 3px solid var(--primary);">
+            <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">10 Restaurantes</div>
+            <div style="font-size: 22px; font-weight: 800; color: var(--text-main); margin: 10px 0;" id="res-scale-10">-</div>
+            <p style="font-size: 10px;">Plan A: <span id="res-scale-10-a">-</span><br>Plan B: <span id="res-scale-10-b">-</span></p>
+          </div>
+          <div class="card" style="text-align: center; border-top: 3px solid var(--accent-blue);">
+            <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">50 Restaurantes</div>
+            <div style="font-size: 22px; font-weight: 800; color: var(--text-main); margin: 10px 0;" id="res-scale-50">-</div>
+            <p style="font-size: 10px;">Plan A: <span id="res-scale-50-a">-</span><br>Plan B: <span id="res-scale-50-b">-</span></p>
+          </div>
+          <div class="card" style="text-align: center; border-top: 3px solid var(--success);">
+            <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">100 Restaurantes</div>
+            <div style="font-size: 22px; font-weight: 800; color: var(--text-main); margin: 10px 0;" id="res-scale-100">-</div>
+            <p style="font-size: 10px;">Plan A: <span id="res-scale-100-a">-</span><br>Plan B: <span id="res-scale-100-b">-</span></p>
+          </div>
+        </div>
+        <p style="font-size: 12.5px; color: var(--text-muted); text-align: center; line-height: 1.4;">*Proyección calculada asumiendo un split equitativo de la cartera (50% en Plan A y 50% en Plan B). Los ingresos transaccionales netos se depositan de forma automática mensualmente.</p>
+      </section>
+
+    </div>
+
+    <!-- Navigation Footer -->
+    <footer class="deck-footer">
+      <button class="nav-btn" onclick="prevSlide()" aria-label="Anterior">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      
+      <div class="dots-container" id="dots-mount">
+        <div class="dot active" onclick="goToSlide(0)"></div>
+        <div class="dot" onclick="goToSlide(1)"></div>
+        <div class="dot" onclick="goToSlide(2)"></div>
+        <div class="dot" onclick="goToSlide(3)"></div>
+        <div class="dot" onclick="goToSlide(4)"></div>
+        <div class="dot" onclick="goToSlide(5)"></div>
+        <div class="dot" onclick="goToSlide(6)"></div>
+      </div>
+
+      <button class="nav-btn" onclick="nextSlide()" aria-label="Siguiente">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </footer>
+
+  </div>
+
+  <div class="keyboard-hint">Usa las flechas ← y → de tu teclado para navegar por las diapositivas</div>
+
+  <!-- Slide Deck Scripts -->
+  <script>
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    const slideNumIndicator = document.getElementById('slide-num');
+
+    function updateDeck() {
+      // Toggle slides
+      slides.forEach((slide, idx) => {
+        if (idx === currentSlideIndex) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      // Toggle dots
+      dots.forEach((dot, idx) => {
+        if (idx === currentSlideIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+
+      // Update indicator text
+      slideNumIndicator.innerText = `${currentSlideIndex + 1} / ${slides.length}`;
+    }
+
+    function nextSlide() {
+      if (currentSlideIndex < slides.length - 1) {
+        currentSlideIndex++;
+        updateDeck();
+      }
+    }
+
+    // Previous Slide
+    function prevSlide() {
+      if (currentSlideIndex > 0) {
+        currentSlideIndex--;
+        updateDeck();
+      }
+    }
+
+    function goToSlide(index) {
+      currentSlideIndex = index;
+      updateDeck();
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+
+    // Calculator Logic
+    function calculateStats() {
+      const volume = parseFloat(document.getElementById('calc-volume').value) || 30000;
+      const ticket = parseFloat(document.getElementById('calc-ticket').value) || 30;
+      const setupFee = parseFloat(document.getElementById('calc-setup-fee').value) || 0;
+      
+      const txCount = Math.round(volume / ticket);
+      const hardwareCost = 1050; // iPad + stand + S700 reader + printer + drawer
+
+      // Costo adquirente mayorista: 1.80% + 5c
+      const wholesaleCost = (volume * 0.0180) + (txCount * 0.05);
+
+      // Plan A: SaaS $849, rate 2.19% + 10c
+      const rateA = (volume * 0.0219) + (txCount * 0.10);
+      const spreadA = rateA - wholesaleCost;
+      const totalA = 849 + spreadA;
+
+      // Plan B: SaaS $99, rate 3.99% CD
+      const rateB = volume * 0.0399;
+      const spreadB = rateB - wholesaleCost;
+      const totalB = 99 + spreadB;
+
+      // Inversión neta de Hardware por sucursal
+      const netInv = Math.max(0, hardwareCost - setupFee);
+
+      // Payback Period (Meses para recuperar la inversión neta)
+      const paybackA = totalA > 0 ? (netInv / totalA) : 0;
+      const paybackB = totalB > 0 ? (netInv / totalB) : 0;
+
+      // Update cells
+      document.getElementById('res-cost-a').innerText = `$${wholesaleCost.toFixed(2)}`;
+      document.getElementById('res-cost-b').innerText = `$${wholesaleCost.toFixed(2)}`;
+
+      document.getElementById('res-spread-a').innerText = `$${spreadA.toFixed(2)}`;
+      document.getElementById('res-spread-b').innerText = `$${spreadB.toFixed(2)}`;
+
+      document.getElementById('res-total-a').innerText = `$${totalA.toFixed(2)} / mes`;
+      document.getElementById('res-total-b').innerText = `$${totalB.toFixed(2)} / mes`;
+
+      document.getElementById('res-net-inv-a').innerText = `$${netInv.toFixed(2)}`;
+      document.getElementById('res-net-inv-b').innerText = `$${netInv.toFixed(2)}`;
+
+      // Payback output text
+      document.getElementById('res-payback-a').innerText = paybackA === 0 ? 'Inmediato' : `${paybackA.toFixed(1)} meses`;
+      document.getElementById('res-payback-b').innerText = paybackB === 0 ? 'Inmediato' : `${paybackB.toFixed(1)} meses`;
+
+      // Scale projections (50% Plan A, 50% Plan B)
+      const avgRevenue = (totalA + totalB) / 2;
+      document.getElementById('res-scale-10').innerText = `$${Math.round(avgRevenue * 10).toLocaleString()} USD/mes`;
+      document.getElementById('res-scale-10-a').innerText = `$${Math.round(totalA * 5).toLocaleString()}`;
+      document.getElementById('res-scale-10-b').innerText = `$${Math.round(totalB * 5).toLocaleString()}`;
+
+      document.getElementById('res-scale-50').innerText = `$${Math.round(avgRevenue * 50).toLocaleString()} USD/mes`;
+      document.getElementById('res-scale-50-a').innerText = `$${Math.round(totalA * 25).toLocaleString()}`;
+      document.getElementById('res-scale-50-b').innerText = `$${Math.round(totalB * 25).toLocaleString()}`;
+
+      document.getElementById('res-scale-100').innerText = `$${Math.round(avgRevenue * 100).toLocaleString()} USD/mes`;
+      document.getElementById('res-scale-100-a').innerText = `$${Math.round(totalA * 50).toLocaleString()}`;
+      document.getElementById('res-scale-100-b').innerText = `$${Math.round(totalB * 50).toLocaleString()}`;
+    }
+
+    // Run calculator on load
+    window.onload = function() {
+      calculateStats();
+    }
+  </script>
+</body>
+</html>
